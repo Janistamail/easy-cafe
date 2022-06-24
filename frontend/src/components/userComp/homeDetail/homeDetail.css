@@ -4,3 +4,8 @@
     margin: auto;
     padding-top: 200px;
 }
+
+.bg-home {
+    background-color: #252525;
+    opacity: 0.9;
+}
