@@ -32,7 +32,7 @@ Hello everyone this project is about cafe mangement project that our team adapt 
 ### This is my team
 
 - [Janista Sihirunwong](https://github.com/Janistamail)
-- [Tanyarat Nattip](#)
+- [Tanyarat Nattip](https://github.com/Tanyarat65)
 - [Apichart Saelu](#)
 - [mew](#)
 
