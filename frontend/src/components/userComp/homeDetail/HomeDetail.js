@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { initHome, increaseMenuOrder, decreaseMenuOrder } from "../userSlice";
 import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import {} from "../cartSlice";
 
 const HomeDetail = () => {
   let location = useLocation();
