@@ -3,21 +3,24 @@ import { createSlice } from "@reduxjs/toolkit";
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    amountHomeOrder: 1,
+    //เก็บค่าที่ลูกค้ากด ADD มาจากหน้า homeDetail
+    orderFromCustomer: [],
   },
   reducers: {
-    increaseMenuOrder: (state) => {
-      state.amountHomeOrder += 1;
+    //เมื่อลูกค้ากด ADD button
+    addOrder: (state, action) => {
+      console.log(action.payload);
+      state.orderFromCustomer.push(action.payload);
     },
-    decreaseMenuOrder: (state) => {
-      if (state.amountHomeOrder > 0) {
-        state.amountHomeOrder -= 1;
-      }
-    },
+    // decreaseMenuOrder: (state) => {
+    //   if (state.amountHomeOrder > 0) {
+    //     state.amountHomeOrder -= 1;
+    //   }
+    // },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increaseMenuOrder, decreaseMenuOrder } = cartSlice.actions;
+export const { addOrder } = cartSlice.actions;
 
 export default cartSlice.reducer;

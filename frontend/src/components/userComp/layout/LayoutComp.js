@@ -6,7 +6,7 @@ const LayoutComp = () => {
   const location = useLocation();
   return (
     <div>
-      {console.log(location)}
+      {/* {console.log(location)} */}
       <Navbar />
 
       {location.pathname == "/" ? <img src={logo}></img> : <Outlet />}

@@ -8,18 +8,19 @@ import { useEffect, useContext } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { initHome, increaseMenuOrder, decreaseMenuOrder } from "../userSlice";
+import { addOrder } from "../cartDetail/cartSlice";
 import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 const HomeDetail = () => {
   let location = useLocation();
-  // console.log(location);
 
   const [amount, setAmount] = useState(0);
   const { pageCat } = useParams();
 
   const state = useSelector((state) => state.user);
   const state1 = useSelector((state) => state.category);
+  const state2 = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,78 +35,45 @@ const HomeDetail = () => {
     initFunc();
   }, [pageCat]);
 
+  // เมื่อลูกกดปุ่ม ADD order
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log("Success:", e.target.drinkType.value);
+    // console.log("Success:", e.target.productName.value);
+    // console.log("Success:", e.target.quantity.value);
+    dispatch(
+      addOrder({
+        drinkType: e.target.drinkType.value,
+        productName: e.target.productName.value,
+        quantity: e.target.quantity.value,
+      })
+    );
+    let result = axios.post("/users/cart", {
+      drinkType: e.target.drinkType.value,
+      productName: e.target.productName.value,
+      quantity: e.target.quantity.value,
+    });
+  };
+
   return (
-    // <div className="box">
-    //   {state.order &&
-    //     state.order.map((x, index) => (
-    //       <div id="cards">
-    //         <div className="BoxA">
-    //           <h3>{x.product_name}</h3>
-    //           <br />
-    //           <img
-    //             width="100px"
-    //             height="100px"
-    //             src={`${x.product_photo}`}
-    //           ></img>
-    //           <br />
-    //           {x.hot_price ? (
-    //             <>
-    //               <input type="radio" value="ร้อน" name="type" checked />
-    //               <label for="ร้อน">ร้อน {x.hot_price} บาท</label>
-    //             </>
-    //           ) : (
-    //             <></>
-    //           )}
-    //           <br />
-    //           {x.iced_price ? (
-    //             <>
-    //               <input type="radio" value="เย็น" name="type" /> {" "}
-    //               <label for="เย็น">เย็น {x.iced_price} บาท</label>
-    //             </>
-    //           ) : (
-    //             <></>
-    //           )}
-    //           <br />
-    //           {x.frappe_price ? (
-    //             <>
-    //               {" "}
-    //               <input type="radio" value="ปั่น" name="type" /> {" "}
-    //               <label for="ปั่น">ปั่น {x.frappe_price} บาท</label>
-    //               <br />
-    //             </>
-    //           ) : (
-    //             <></>
-    //           )}
-    //           <p>
-    //             <button onClick={() => dispatch(decreaseMenuOrder(index))}>
-    //               -
-    //             </button>
-    //             {/* {console.log(state)} */}
-    //             {x.quantity}
-    //             <button onClick={() => dispatch(increaseMenuOrder(index))}>
-    //               +
-    //             </button>
-    //           </p>
-    //           <br />
-    //           <button>เพิ่ม</button>
-    //           <br />
-    //         </div>
-    //       </div>
-    //     ))}
-    // </div>
     <div style={{ paddingTop: "100px", padding: "10px" }}>
       {state.order &&
         state.order.map((x, index) => (
           <div className="mt-2 sm:mt-0">
             <div className="md:grid md:grid-cols-1 md:gap-1">
               <div className="mt-2 md:mt-0 md:col-span-2">
-                <form action="#">
+                <form action="#" onSubmit={handleSubmit}>
                   <div className="shadow overflow-hidden sm:rounded-md">
                     <div className="px-4 py-5 bg-home space-y-2 sm:p-6">
                       <fieldset>
                         <legend className="contents text-xl font-large text-white uppercase">
                           {x.product_name}
                         </legend>
+                        <input
+                          type="hidden"
+                          name="productName"
+                          value={x.product_name}
+                        />
 
                         <table>
                           <tr>
@@ -124,7 +92,8 @@ const HomeDetail = () => {
                                     <>
                                       <input
                                         id="push-everything"
-                                        name="type"
+                                        name="drinkType"
+                                        value="hot"
                                         type="radio"
                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                       />
@@ -144,7 +113,8 @@ const HomeDetail = () => {
                                     <>
                                       <input
                                         id="push-everything"
-                                        name="type"
+                                        name="drinkType"
+                                        value="iced"
                                         type="radio"
                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                       />
@@ -164,7 +134,8 @@ const HomeDetail = () => {
                                     <>
                                       <input
                                         id="push-everything"
-                                        name="type"
+                                        name="drinkType"
+                                        value="frappe"
                                         type="radio"
                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                       />
@@ -181,6 +152,7 @@ const HomeDetail = () => {
                                 </div>
 
                                 <button
+                                  type="button"
                                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   onClick={() =>
                                     dispatch(decreaseMenuOrder(index))
@@ -189,9 +161,13 @@ const HomeDetail = () => {
                                   -
                                 </button>
                                 <p style={{ color: "white" }}>{x.quantity}</p>
-                                {console.log(x.quantity)}
-
+                                <input
+                                  type="hidden"
+                                  name="quantity"
+                                  value={x.quantity}
+                                />
                                 <button
+                                  type="button"
                                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   onClick={() =>
                                     dispatch(increaseMenuOrder(index))
