@@ -6,34 +6,32 @@ import HomeDetail from "./components/userComp/homeDetail/HomeDetail";
 import EditProduct from "./components/userComp/editDetail/editProduct";
 import axios from "axios";
 
-
-
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
 
+  //LIFF PART
   const liff = window.liff;
-  const liffid = "1657099044-Jjo1LZmv";
-  const [data,setData] = useState(null)
+  const liffid = "1657254572-91OYpANd";
+  const [data, setData] = useState(null);
   const initLine = async () => {
     await liff.init({ liffId: `${liffid}` }).catch((err) => {
       throw err;
     });
-    if (liff.isLoggedIn()&& !data) {
+    if (liff.isLoggedIn()) {
       let getProfile = await liff.getProfile();
-      setData({
-        name: getProfile.displayName,
-        userLineID: getProfile.userId,
-        pictureUrl: getProfile.pictureUrl,
-      });
+      // setData({
+      //   name: getProfile.displayName,
+      //   userLineID: getProfile.userId,
+      //   pictureUrl: getProfile.pictureUrl,
+      //   // status:
+      // });
+      console.log(getProfile);
     } else {
       liff.login();
     }
   };
 
   initLine();
-
-  
-  console.log(data);
 
   return (
     <div>

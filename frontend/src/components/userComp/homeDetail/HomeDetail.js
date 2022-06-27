@@ -48,6 +48,7 @@ const HomeDetail = () => {
         quantity: e.target.quantity.value,
       })
     );
+
     let result = axios.post("/users/cart", {
       drinkType: e.target.drinkType.value,
       productName: e.target.productName.value,
