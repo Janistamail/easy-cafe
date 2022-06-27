@@ -43,35 +43,35 @@ const HomeDetailBatender = () => {
 
     const columns = [
         {
-          title: 'Item',
-          dataIndex: 'id_order',
-          key: 'id_order',
-        }, 
+            title: 'Item',
+            dataIndex: 'id_order',
+            key: 'id_order',
+        },
         {
             title: 'List',
             dataIndex: 'product_name',
             key: 'product_name',
-          }, 
-          {
+        },
+        {
             title: 'Type',
             dataIndex: 'type',
             key: 'type',
-          }, 
-          {
+        },
+        {
             title: 'Quantity',
             dataIndex: 'amount',
             key: 'amount',
-          }, 
-        ]
+        },
+    ]
 
-        // const [data, setData] = useState([]);
-       
-        // useEffect(() => {
-        //  axios.get('/bartenders/home').then((result) => {
-        //     console.log('data for loop' ,result);
-        //     setData(result.data);
-        //   });
-        // },);
+    // const [data, setData] = useState([]);
+
+    // useEffect(() => {
+    //  axios.get('/bartenders/home').then((result) => {
+    //     console.log('data for loop' ,result);
+    //     setData(result.data);
+    //   });
+    // },);
 
     return (
         // <div style={{paddingTop:'140px'}}>
@@ -91,7 +91,7 @@ const HomeDetailBatender = () => {
         <div className="pt-32 pb-16 rounded-md">
             {state.order &&
                 state.order.map((x, index) => (
-                    
+
                     <div className="mt-2 sm:mt-5">
                         <div className="md:grid md:grid-cols-1 md:gap-10">
                             <div className="mt-2 md:mt-0 md:col-span-2 px-2 ">
@@ -102,8 +102,8 @@ const HomeDetailBatender = () => {
 
                                             <fieldset>
                                                 <legend className="contents text-xl font-large text-white uppercase content-evenly" >
-                                                <h5>Order No. {x.id_order}</h5>                                            
-                                                    
+                                                    <h5>Order No. {x.id_order}</h5>
+
                                                     {/* <input></input>
                                                     <button type="submit">submit</button>
                                                 
@@ -140,13 +140,13 @@ const HomeDetailBatender = () => {
                                                                 <p className='text-base'>1</p>
                                                             </td>
                                                             <td className='px-2.5'>
-                                                            <p className='text-base'>{x.product_name}</p>
+                                                                <p className='text-base'>{x.product_name}</p>
                                                             </td>
                                                             <td className='px-2.5'>
-                                                            <p className='text-base'>{x.type}</p>
+                                                                <p className='text-base'>{x.type}</p>
                                                             </td>
                                                             <td className='px-2.5'>
-                                                            <p className='text-base'>{x.amount}</p>
+                                                                <p className='text-base'>{x.amount}</p>
                                                             </td>
                                                         </tr>
                                                     </table>
