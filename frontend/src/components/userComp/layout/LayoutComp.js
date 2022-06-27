@@ -9,7 +9,10 @@ const LayoutComp = () => {
       {console.log(location)}
       <Navbar />
 
-      {location.pathname == "/" ? <img src={logo}></img> : <Outlet />}
+      {location.pathname == "/" ? 
+      <img src={logo}></img>
+       : <Outlet />}
+       
     </div>
   );
 };

@@ -4,9 +4,9 @@ var pool = mysql.createPool({
   connectionLimit: 10,
   host: "localhost",
   user: "root",
-  password: "root",
-  database: "easyCafe",
-  port: 8889,
+  // password: "root",
+  database: "easycafe",
+  port: 3306,
 });
 
 module.exports = pool;

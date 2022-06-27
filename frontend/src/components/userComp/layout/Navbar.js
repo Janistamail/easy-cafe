@@ -70,7 +70,8 @@ const Navbar = () => {
             </div>
           </li>
         </div>
-
+      {/* ------------------------------------Footer Menu------------------------------------ */}
+      <div className="flex-container-nav" >
         <div
           className="navbarhead"
           // style={{ backgroundImage: "linear-gradient(#393939, #252525)" }}
@@ -89,6 +90,7 @@ const Navbar = () => {
               </button>
             ))}
         </div>
+      </div>
       </div>
 
       {/* ------------------------------------Footer Menu------------------------------------ */}
