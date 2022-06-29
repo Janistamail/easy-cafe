@@ -3,6 +3,7 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 import LayoutComp from "./components/userComp/layout/LayoutComp";
 import HomeDetail from "./components/userComp/homeDetail/HomeDetail";
 import EditProduct from "./components/userComp/editDetail/editProduct";
+import AddProduct from "./components/adminComp/addProduct/AddProduct";
 import axios from "axios";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LayoutComp />}>
           <Route path="/:pageCat" element={<HomeDetail />} />
+          <Route path="/addProduct" element={<AddProduct />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
