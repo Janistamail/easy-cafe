@@ -4,7 +4,7 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 import LayoutComp from "./components/userComp/layout/LayoutComp";
 import HomeDetail from "./components/userComp/homeDetail/HomeDetail";
 import EditProduct from "./components/userComp/editDetail/editProduct";
-import BartenderDetail from "./components/batenderComp/BartenderDetail";
+import BartenderDetail from "./components/batenderComp/homeDetail/BartenderDetail";
 import AdminDetail from "./components/adminComp/AdminDetail";
 import AuthenContext from "./AuthenContext";
 import axios from "axios";

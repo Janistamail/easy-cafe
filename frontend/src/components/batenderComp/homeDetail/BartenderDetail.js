@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './Bartender.css'
+
 const BartenderDetail = () => {
   const [orders, setOrders] = useState(null);
   const [show, setShow] = useState(null);
@@ -41,12 +43,12 @@ const BartenderDetail = () => {
                 // onSubmit={handleSubmit}
                 >
                   <div className="shadow overflow-hidden sm:rounded-md">
-                    <div className="px-4 py-5 bg-home space-y-2 sm:p-6">
+                    <div className="px-4 py-3 bg-home space-y-2 sm:p-6">
                       <fieldset>
-                        <legend className="contents text-xl font-large text-white uppercase">
-                          Order id  = {x[0].id_order}
+                        <legend className="font-large text-white text-center" >
+                          Order No. {x[0].id_order}
                         </legend>
-                        <table>
+                        <table style={{ width: "100%", margin: "0px auto" }}>
                           <tr>
                             <th style={{ color: "white" }}>
                               ลำดับ
@@ -62,20 +64,20 @@ const BartenderDetail = () => {
                             </th>
                           </tr>
                           {
-                            x.map((x,index) => (
+                            x.map((x, index) => (
                               <>
                                 <tr>
                                   <td style={{ color: "white" }}>
-                                    {index+1}
+                                    {index + 1}
                                   </td>
                                   <td style={{ color: "white" }}>
                                     {x.product_name}
                                   </td>
                                   <td style={{ color: "white" }}>
-                                  {x.type}
+                                    {x.type}
                                   </td>
                                   <td style={{ color: "white" }}>
-                                  {x.amount}
+                                    {x.amount}
                                   </td>
                                 </tr>
                               </>
@@ -89,8 +91,24 @@ const BartenderDetail = () => {
                       <button
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      style={{ marginRight: "10px"}}
                       >
-                        ADD
+                        รับออเดอร์
+                      </button>
+
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        style={{ marginRight: "10px"}}
+                      >
+                        กำลังทำ
+                      </button>
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        style={{ marginRight: "10px"}}
+                      >
+                        เสร็จ
                       </button>
                     </div>
                   </div>
