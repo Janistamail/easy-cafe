@@ -8,59 +8,35 @@ import BartenderDetail from "./components/batenderComp/BartenderDetail";
 import AdminDetail from "./components/adminComp/AdminDetail";
 import AuthenContext from "./AuthenContext";
 import axios from "axios";
+import Login from "./components/userComp/login/Login";
+import { useSelector } from "react-redux";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
-
-  //LIFF PART
-  const liff = window.liff;
-  const liffid = "1657254572-91OYpANd";
-  const [authenRight, setAuthenRight] = useState("");
-  const [data, setData] = useState(null);
-  // const initLine = async () => {
-  //   await liff.init({ liffId: `${liffid}` }).catch((err) => {
-  //     throw err;
-  //   });
-  //   if (liff.isLoggedIn()) {
-  //     let getProfile = await liff.getProfile();
-  //     // setData({
-  //     //   name: getProfile.displayName,
-  //     //   userLineID: getProfile.userId,
-  //     //   pictureUrl: getProfile.pictureUrl,
-  //     //   // status:
-  //     // });
-  //     console.log(getProfile);
-  //   } else {
-  //     liff.login();
-  //   }
-  // };
-
-  // initLine();
-  console.log(authenRight);
-
+  const userStatus = useSelector((state) => state.auth.status);
   return (
-    <AuthenContext.Provider
-      value={{ liff, liffid, authenRight, setAuthenRight, data, setData }}
-    >
+    <>
+      <h3>home</h3>
       <Routes>
         <Route path="/" element={<LayoutComp />}>
-          {authenRight === "user" && (
+          {userStatus === "user" && (
             <Route path="/:pageCat" element={<HomeDetail />} />
           )}
-
           {/* <Route path="/:pageCat" element={<HomeDetail />} /> */}
-
-          {authenRight === "admin" && (
+          {userStatus === "" && (
+            <Route path="/login/:status" element={<Login />} />
+          )}
+          {userStatus === "admin" && (
             <Route path="/admin" element={<AdminDetail />} />
           )}
-          {authenRight === "bartender" && (
+          {userStatus === "bartender" && (
             <Route path="/bartender" element={<BartenderDetail />} />
           )}
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
       <hr />
-    </AuthenContext.Provider>
+    </>
   );
 }
 
