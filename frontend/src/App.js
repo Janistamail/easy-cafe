@@ -57,6 +57,7 @@ function App() {
             <Route path="/bartender" element={<BartenderDetail />} />
           )} */}
           <Route path="/bartender" element={<BartenderDetail />} />
+          <Route path="/bartender/success" element={<BartenderDetail />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
