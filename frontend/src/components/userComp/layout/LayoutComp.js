@@ -8,38 +8,39 @@ import axios from "axios";
 
 const LayoutComp = () => {
   const location = useLocation();
-  const { liff, liffid, authenRight, setAuthenRight, data, setData } =
-    useContext(AuthenContext);
-  console.log(authenRight);
+  console.log(location);
+  // const { liff, liffid, authenRight, setAuthenRight, data, setData } =
+  //   useContext(AuthenContext);
+  // console.log(authenRight);
 
-  const initLine = async () => {
-    await liff.init({ liffId: `${liffid}` }).catch((err) => {
-      throw err;
-    });
+  // const initLine = async () => {
+  //   await liff.init({ liffId: `${liffid}` }).catch((err) => {
+  //     throw err;
+  //   });
 
-    if (liff.isLoggedIn()) {
-      setAuthenRight("user");
+  //   if (liff.isLoggedIn()) {
+  //     setAuthenRight("user");
 
-      let getProfile = await liff.getProfile();
-      setData({
-        line_name: getProfile.displayName,
-        line_id: getProfile.userId,
-        line_pic: getProfile.pictureUrl,
-        status: "user",
-      });
-      const result = axios.post("/authen/login", { data });
-      console.log(data);
-    } else {
-      liff.login();
-    }
-  };
+  //     let getProfile = await liff.getProfile();
+  //     setData({
+  //       line_name: getProfile.displayName,
+  //       line_id: getProfile.userId,
+  //       line_pic: getProfile.pictureUrl,
+  //       status: "user",
+  //     });
+  //     const result = axios.post("/authen/login", { data });
+  //     console.log(data);
+  //   } else {
+  //     liff.login();
+  //   }
+  // };
 
-  initLine();
+  // initLine();
 
   return (
     <div>
-      <Navbar />
-      {location.pathname == "/" ? <img src={logo}></img> : <Outlet />}
+
+      {location.pathname === "/" ? <><Navbar /><img src={logo}></img></> :<><Navbar /> <Outlet /></>}
     </div>
   );
 };

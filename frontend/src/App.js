@@ -44,18 +44,19 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<LayoutComp />}>
-          {authenRight === "user" && (
+          {/* {authenRight === "user" && (
             <Route path="/:pageCat" element={<HomeDetail />} />
-          )}
+          )} */}
 
           {/* <Route path="/:pageCat" element={<HomeDetail />} /> */}
 
-          {authenRight === "admin" && (
+          {/* {authenRight === "admin" && (
             <Route path="/admin" element={<AdminDetail />} />
           )}
           {authenRight === "bartender" && (
             <Route path="/bartender" element={<BartenderDetail />} />
-          )}
+          )} */}
+          <Route path="/bartender" element={<BartenderDetail />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

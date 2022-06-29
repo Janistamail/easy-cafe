@@ -21,7 +21,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchAllCategory = async () => {
       let result = await axios.get("users/allCategory");
-      console.log(result);
+      // console.log(result);
       if (result.status === 200) {
         dispatch(initAllCategory(result.data));
       }
@@ -71,7 +71,7 @@ const Navbar = () => {
           </li>
         </div>
 
-        <div
+        {/* <div
           className="navbarhead"
           // style={{ backgroundImage: "linear-gradient(#393939, #252525)" }}
         >
@@ -88,7 +88,7 @@ const Navbar = () => {
                 {x.category_name}
               </button>
             ))}
-        </div>
+        </div> */}
       </div>
 
       {/* ------------------------------------Footer Menu------------------------------------ */}
