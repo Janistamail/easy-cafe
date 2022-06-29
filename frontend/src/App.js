@@ -14,7 +14,7 @@ function App() {
 
   //LIFF PART
   const liff = window.liff;
-  const liffid = "1657254572-91OYpANd";
+  const liffid = "1657099044-Jjo1LZmv";
   const [authenRight, setAuthenRight] = useState("");
   const [data, setData] = useState(null);
   // const initLine = async () => {
