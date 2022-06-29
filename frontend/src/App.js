@@ -8,6 +8,7 @@ import BartenderDetail from "./components/batenderComp/homeDetail/BartenderDetai
 import AdminDetail from "./components/adminComp/AdminDetail";
 import AuthenContext from "./AuthenContext";
 import axios from "axios";
+import SuccessDetail from "./components/batenderComp/successDetail/SuccessDetail";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -57,7 +58,7 @@ function App() {
             <Route path="/bartender" element={<BartenderDetail />} />
           )} */}
           <Route path="/bartender" element={<BartenderDetail />} />
-          <Route path="/bartender/success" element={<BartenderDetail />} />
+          <Route path="/bartender/success" element={<SuccessDetail />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

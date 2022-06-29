@@ -50,16 +50,16 @@ const BartenderDetail = () => {
                         </legend>
                         <table style={{ width: "100%", margin: "0px auto" }}>
                           <tr>
-                            <th style={{ color: "white" }}>
+                            <th style={{ color: "white" , textAlign : "center"}}>
                               ลำดับ
                             </th>
-                            <th style={{ color: "white" }}>
+                            <th style={{ color: "white", textAlign : "center" }}>
                               รายการ
                             </th>
-                            <th style={{ color: "white" }}>
+                            <th style={{ color: "white", textAlign : "center" }}>
                               ประเภท
                             </th>
-                            <th style={{ color: "white" }}>
+                            <th style={{ color: "white", textAlign : "center" }}>
                               จำนวน
                             </th>
                           </tr>
@@ -67,16 +67,16 @@ const BartenderDetail = () => {
                             x.map((x, index) => (
                               <>
                                 <tr>
-                                  <td style={{ color: "white" }}>
+                                  <td style={{ color: "white", textAlign : "center" }}>
                                     {index + 1}
                                   </td>
-                                  <td style={{ color: "white" }}>
+                                  <td style={{ color: "white", textAlign : "center" }}>
                                     {x.product_name}
                                   </td>
-                                  <td style={{ color: "white" }}>
+                                  <td style={{ color: "white", textAlign : "center" }}>
                                     {x.type}
                                   </td>
-                                  <td style={{ color: "white" }}>
+                                  <td style={{ color: "white" , textAlign : "center"}}>
                                     {x.amount}
                                   </td>
                                 </tr>
