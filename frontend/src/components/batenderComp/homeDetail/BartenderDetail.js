@@ -28,6 +28,18 @@ const BartenderDetail = () => {
 
     console.log(show);
   }
+  const accept = async (id)=>{
+    const res = await axios.put(`bartenders/home/process/accept/${id}`);
+    console.log(res);
+  }
+  const processing = async (id)=>{
+    const res = await axios.put(`bartenders/home/process/processing/${id}`);
+    console.log(res);
+  }
+  const done = async (id)=>{
+    const res = await axios.put(`bartenders/home/process/done/${id}`);
+    console.log(res);
+  }
 
   return (
     <div
@@ -89,9 +101,14 @@ const BartenderDetail = () => {
                     </div>
                     <div className="px-4 py-3 bg-home text-center sm:px-6">
                       <button
-                        type="submit"
+                        
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       style={{ marginRight: "10px"}}
+                      onClick = {(e)=>
+                        { 
+                          e.preventDefault()
+                          accept(x[0].id_order)}
+                        }
                       >
                         รับออเดอร์
                       </button>
@@ -100,6 +117,11 @@ const BartenderDetail = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         style={{ marginRight: "10px"}}
+                        onClick = {(e)=>
+                          { 
+                            e.preventDefault()
+                            processing(x[0].id_order)}
+                          }
                       >
                         กำลังทำ
                       </button>
@@ -107,6 +129,11 @@ const BartenderDetail = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         style={{ marginRight: "10px"}}
+                        onClick = {(e)=>
+                          { 
+                            e.preventDefault()
+                            done(x[0].id_order)}
+                          }
                       >
                         เสร็จ
                       </button>
