@@ -8,7 +8,7 @@ import icon_notify from "../../image/icon_notify.png";
 import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useContext } from "react";
-import Context from "../../../Context";
+import Context from "../../../AuthenContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { initAllCategory, setCurrentCategory } from "../categorySlice";
@@ -21,7 +21,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchAllCategory = async () => {
       let result = await axios.get("users/allCategory");
-      // console.log(result);
+      console.log(result);
       if (result.status === 200) {
         dispatch(initAllCategory(result.data));
       }

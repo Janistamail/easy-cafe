@@ -3,6 +3,7 @@ var router = express.Router();
 const axios = require("axios");
 const pool = require("../modules/poolConnection");
 
+//แสดงเมนูแต่ละ category
 router.get("/home/:params", async function (req, res, next) {
   try {
     let [rows, fields] = await pool.query(
@@ -14,6 +15,7 @@ router.get("/home/:params", async function (req, res, next) {
   }
 });
 
+//แสดง category ที่หัว navbar ทั้งหมด
 router.get("/allCategory", async function (req, res, next) {
   // console.log("test");
   try {
@@ -25,8 +27,9 @@ router.get("/allCategory", async function (req, res, next) {
   }
 });
 
-// router.get("/cart", function (req, res, next) {
-//   res.send("respond with a resource");
+// //เก็บ order ที่ลูกต้า ADD
+// router.post("/cart", async function (req, res, next) {
+//   const [rows, fields] = await pool.query(``);
 // });
 
 router.put("/edit/:id", async function (req, res, next) {

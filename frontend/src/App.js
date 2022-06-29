@@ -4,6 +4,9 @@ import { Routes, Route, Outlet, Link } from "react-router-dom";
 import LayoutComp from "./components/userComp/layout/LayoutComp";
 import HomeDetail from "./components/userComp/homeDetail/HomeDetail";
 import EditProduct from "./components/userComp/editDetail/editProduct";
+import BartenderDetail from "./components/batenderComp/BartenderDetail";
+import AdminDetail from "./components/adminComp/AdminDetail";
+import AuthenContext from "./AuthenContext";
 import axios from "axios";
 
 function App() {
@@ -12,37 +15,52 @@ function App() {
   //LIFF PART
   const liff = window.liff;
   const liffid = "1657254572-91OYpANd";
+  const [authenRight, setAuthenRight] = useState("");
   const [data, setData] = useState(null);
-  const initLine = async () => {
-    await liff.init({ liffId: `${liffid}` }).catch((err) => {
-      throw err;
-    });
-    if (liff.isLoggedIn()) {
-      let getProfile = await liff.getProfile();
-      // setData({
-      //   name: getProfile.displayName,
-      //   userLineID: getProfile.userId,
-      //   pictureUrl: getProfile.pictureUrl,
-      //   // status:
-      // });
-      console.log(getProfile);
-    } else {
-      liff.login();
-    }
-  };
+  // const initLine = async () => {
+  //   await liff.init({ liffId: `${liffid}` }).catch((err) => {
+  //     throw err;
+  //   });
+  //   if (liff.isLoggedIn()) {
+  //     let getProfile = await liff.getProfile();
+  //     // setData({
+  //     //   name: getProfile.displayName,
+  //     //   userLineID: getProfile.userId,
+  //     //   pictureUrl: getProfile.pictureUrl,
+  //     //   // status:
+  //     // });
+  //     console.log(getProfile);
+  //   } else {
+  //     liff.login();
+  //   }
+  // };
 
-  initLine();
+  // initLine();
+  console.log(authenRight);
 
   return (
-    <div>
+    <AuthenContext.Provider
+      value={{ liff, liffid, authenRight, setAuthenRight, data, setData }}
+    >
       <Routes>
         <Route path="/" element={<LayoutComp />}>
-          <Route path="/:pageCat" element={<HomeDetail />} />
+          {authenRight === "user" && (
+            <Route path="/:pageCat" element={<HomeDetail />} />
+          )}
+
+          {/* <Route path="/:pageCat" element={<HomeDetail />} /> */}
+
+          {authenRight === "admin" && (
+            <Route path="/admin" element={<AdminDetail />} />
+          )}
+          {authenRight === "bartender" && (
+            <Route path="/bartender" element={<BartenderDetail />} />
+          )}
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
       <hr />
-    </div>
+    </AuthenContext.Provider>
   );
 }
 
