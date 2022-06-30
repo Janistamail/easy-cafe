@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import LayoutComp from "./components/userComp/layout/LayoutComp";
 import HomeDetail from "./components/userComp/homeDetail/HomeDetail";
-import EditProduct from "./components/userComp/editDetail/editProduct";
+// import EditProduct from "./components/userComp/editDetail/editProduct";
 import AddProduct from "./components/adminComp/Product/AddProduct";
 import AddCategory from "./components/adminComp/category/AddCategory"
 import axios from "axios";

@@ -36,8 +36,8 @@ const [iced_price,setIced] = useState();
 const [frappe_price,setFrappe] = useState();
 
 const handleSubmit = async event =>{
-  event.preventDefault();
-  console.log(event.target.category.value);
+  // event.preventDefault();
+  // console.log(event.target.category.value);
 
   //สร้างก้อน formData เก็บค่ามาจาก element โดย useState เพื่อส่งให้Backend
   const formData = new FormData();    
@@ -47,13 +47,13 @@ const handleSubmit = async event =>{
     formData.append('hot_price',hot_price);
     formData.append('iced_price',iced_price);
     formData.append('frappe_price',frappe_price);
-  console.log(formData);
-  console.log("id_category", id_category);
+  // console.log(formData);
+  // console.log("id_category", id_category);
 
 
 
 //ส่งข้อมูล formData ให้ backend
-  await axios.post("http://localhost:3000/admins/add",formData);
+  await axios.post("admins/product/add",formData);
   
 }
 
@@ -68,21 +68,21 @@ console.log(id_category);
                 <div className="shadow overflow-hidden sm:rounded-md">
                   <div className="px-4 py-5 bg-home space-y-2 sm:p-6">
                       
-                            <div class="col-span-6 sm:col-span-3 ">
-                              <label for="product-name" class="block text-sm font-medium text-gray-300">Product Name</label>
-                              <input onChange={(e)=>setName(e.target.value)} type="text" name="product-name" id="product-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
-                            </div>
+                          <div class="col-span-6 sm:col-span-3 ">
+                            <label for="product-name" class="block text-sm font-medium text-gray-300">Product Name</label>
+                            <input onChange={(e)=>setName(e.target.value)} type="text" name="product-name" id="product-name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
+                          </div>
 
                             <div>
                             <label class="block mb-2 text-sm font-medium text-gray-300 " for="file_input">Upload Photo</label>
                             <input accept="image/png, image/gif, image/jpeg" onChange={(e)=>setPhoto(e.target.files[0])} class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
                             {/* input file    /  accept เพื่อกำหนดประเภทไฟล์              /        รับค่าข้อมูลกลับมาเป็น .files */}
-                            </div>
+                          </div>
 
-                            <br></br>           
-                            <div class="flex justify-center">
-                              <div class="mb-3 xl:w-96">
-                                <select name="category"
+                          <br></br>           
+                          <div class="flex justify-center">
+                            <div class="mb-3 xl:w-96">
+                              <select name="category"
                                   onChange={e => setCategory(e.target.value)}
                                   class="form-select appearance-none
                                   block
@@ -107,15 +107,15 @@ console.log(id_category);
                                     <option name="category" value="2">Two</option>
                                     <option name="category" value="3">Three</option> */}
                                 </select>
-                              </div>
                             </div>
+                          </div>
                        
                           
                        
-                            <div class="col-span-6 sm:col-span-3 ">
-                              <label for="hot-price" class="block text-sm font-medium text-gray-300">Hot Price</label>
-                              <input onChange={(e)=>setHot(e.target.value)} type="text" name="hot-price" id="hot-price" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
-                            </div>
+                          <div class="col-span-6 sm:col-span-3 ">
+                            <label for="hot-price" class="block text-sm font-medium text-gray-300">Hot Price</label>
+                            <input onChange={(e)=>setHot(e.target.value)} type="text" name="hot-price" id="hot-price" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
+                          </div>
                           
                         
                           <div class="col-span-6 sm:col-span-3 ">
