@@ -15,7 +15,7 @@ router.get("/home/:params", async function (req, res, next) {
 });
 
 router.get("/allCategory", async function (req, res, next) {
-  // console.log("test");
+  console.log("test");
   try {
     let [rows, fields] = await pool.query(`SELECT * FROM category`);
     console.log(rows);

@@ -12,6 +12,23 @@ router.get('/product/edit', function(req, res, next) {
   res.send('respond with a resource');
 });
 router.post("/add", async function (req, res, next) {
+  try {
+    const newpath = __dirname + "/../public/pic/";
+    const file = req.files.product_photo;
+    const dotIndex = file.name.lastIndexOf('.');
+    const fileExtension = file.name.substr(dotIndex);
+    const randomFilename = (new Date()).getTime();
+    const filename = randomFilename + fileExtension;
+    console.log(req.body);
+    console.log(newpath);
+   
+    file.mv(`${newpath}${filename}`, (err) => {
+      if (err) {
+        return(res.status(500).send({ message: "File upload failed" }));
+      }
+        return(res.status(200).send({ message: 'success', filename: filename }));
+    });
+
 
   const [rows, fields] = await pool.query(
     `insert into products(
@@ -22,10 +39,17 @@ router.post("/add", async function (req, res, next) {
       iced_price, 
       frappe_price) 
       values (?, ?, ?, ?, ?, ?)`,
-      [req.body.product_name,req.body.product_photo,req.body.id_category,req.body.hot_price,req.body.iced_price,req.body.frappe_price]);
-  rows.affectedRows > 0
-    ? res.status(200).json(rows.affectedRows)
-    : res.status(400).send("No data");
+      [req.body.product_name,filename,parseInt(req.body.id_category),parseInt(req.body.hot_price),parseInt(req.body.iced_price),parseInt(req.body.frappe_price)]);
+      if (rows.affectedRows > 0) {
+        console.log(rows);
+        return res.status(200);
+      }
+      console.log(2);
+      return res.status(400);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "Something went wrong" })
+  }
 });
 router.get('/product/del', function(req, res, next) {
   res.send('respond with a resource');

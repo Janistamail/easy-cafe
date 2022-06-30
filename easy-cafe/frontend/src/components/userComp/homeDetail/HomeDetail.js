@@ -35,64 +35,7 @@ const HomeDetail = () => {
   }, [pageCat]);
 
   return (
-    // <div className="box">
-    //   {state.order &&
-    //     state.order.map((x, index) => (
-    //       <div id="cards">
-    //         <div className="BoxA">
-    //           <h3>{x.product_name}</h3>
-    //           <br />
-    //           <img
-    //             width="100px"
-    //             height="100px"
-    //             src={`${x.product_photo}`}
-    //           ></img>
-    //           <br />
-    //           {x.hot_price ? (
-    //             <>
-    //               <input type="radio" value="ร้อน" name="type" checked />
-    //               <label for="ร้อน">ร้อน {x.hot_price} บาท</label>
-    //             </>
-    //           ) : (
-    //             <></>
-    //           )}
-    //           <br />
-    //           {x.iced_price ? (
-    //             <>
-    //               <input type="radio" value="เย็น" name="type" /> {" "}
-    //               <label for="เย็น">เย็น {x.iced_price} บาท</label>
-    //             </>
-    //           ) : (
-    //             <></>
-    //           )}
-    //           <br />
-    //           {x.frappe_price ? (
-    //             <>
-    //               {" "}
-    //               <input type="radio" value="ปั่น" name="type" /> {" "}
-    //               <label for="ปั่น">ปั่น {x.frappe_price} บาท</label>
-    //               <br />
-    //             </>
-    //           ) : (
-    //             <></>
-    //           )}
-    //           <p>
-    //             <button onClick={() => dispatch(decreaseMenuOrder(index))}>
-    //               -
-    //             </button>
-    //             {/* {console.log(state)} */}
-    //             {x.quantity}
-    //             <button onClick={() => dispatch(increaseMenuOrder(index))}>
-    //               +
-    //             </button>
-    //           </p>
-    //           <br />
-    //           <button>เพิ่ม</button>
-    //           <br />
-    //         </div>
-    //       </div>
-    //     ))}
-    // </div>
+
     <div style={{ paddingTop: "100px", padding: "10px" }}>
       {state.order &&
         state.order.map((x, index) => (
