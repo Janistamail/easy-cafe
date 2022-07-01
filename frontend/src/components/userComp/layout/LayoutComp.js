@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 const LayoutComp = () => {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
