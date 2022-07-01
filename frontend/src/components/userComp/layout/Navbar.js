@@ -108,7 +108,7 @@ const Navbar = () => {
           <div className="navbarfooter">
             <tr textAlign={"center"}>
               <td className="menufooter">
-                <Link to={"/"}>
+                <Link to={"/coffee"}>
                   <img src={icon_home} width="80px" />
                 </Link>
               </td>

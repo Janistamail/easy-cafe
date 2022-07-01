@@ -26,6 +26,7 @@ const LayoutComp = () => {
   const liff = window.liff;
   const liffid = "1657254572-91OYpANd";
 
+  //เปิดครั้งแรก-ต่อLIFF/เก็บค่า profileใน redux(data)
   useEffect(() => {
     const initLIFF = async () => {
       let resLine = await liff.init({ liffId: `${liffid}` }).catch((err) => {
@@ -34,14 +35,21 @@ const LayoutComp = () => {
       if (liff.isLoggedIn()) {
         let getProfile = await liff.getProfile();
         // console.log(getProfile);
-
-        dispatch(
-          initData({
-            line_name: getProfile.displayName,
-            line_id: getProfile.userId,
-            line_pic: getProfile.pictureUrl,
-          })
-        );
+        if (getProfile) {
+          let result = await axios.delete("/users/startDeleteCart", {
+            data: { line_id: getProfile.userId },
+          });
+          console.log(result);
+          dispatch(
+            initData({
+              line_name: getProfile.displayName,
+              line_id: getProfile.userId,
+              line_pic: getProfile.pictureUrl,
+            })
+          );
+        } else {
+          console.log("cannot get profile");
+        }
       } else {
         liff.login();
       }
@@ -49,6 +57,7 @@ const LayoutComp = () => {
     initLIFF();
   }, []);
 
+  //เช็คสิิทธิใน DB
   useEffect(() => {
     const login = async () => {
       if (data) {
@@ -66,6 +75,7 @@ const LayoutComp = () => {
     login();
   }, [data]);
 
+  //เช็คสิทธิเสร็จ -> ไปหน้าต่างๆตามสิทธิ
   useEffect(() => {
     if (role === "user") {
       console.log("The role is USER");

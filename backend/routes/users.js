@@ -14,7 +14,18 @@ router.get("/home/:params", async function (req, res, next) {
     console.log(e);
   }
 });
-
+//reset ของใน cart หลัง login เข้ามา
+router.delete("/startDeleteCart", async function (req, res, next) {
+  try {
+    // console.log("delll", req.body.line_id);
+    let [rows, fileds] = await pool.query(
+      `DELETE FROM cart WHERE cart.id_account = (SELECT id_account FROM accounts WHERE line_id = "${req.body.line_id}")`
+    );
+    res.status(200).send("reset user's Cart ");
+  } catch (e) {
+    console.log(e);
+  }
+});
 //แสดง category ที่หัว navbar ทั้งหมด
 router.get("/allCategory", async function (req, res, next) {
   // console.log("test");

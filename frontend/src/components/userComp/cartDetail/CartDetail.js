@@ -30,36 +30,38 @@ const CartDetail = () => {
         {orderInCart &&
           orderInCart.map((x) => (
             <div className="BoxA">
-              <button>edit</button>
+              <button
+                style={{
+                  background: "green",
+                  // marginTop: "400px",
+                  //   marginLeft: "50%",
+                  color: "white",
+                  border: "1px solid white",
+                  padding: "10px 30px",
+                  borderRadius: "10px",
+                }}
+              >
+                edit
+              </button>
               <p>{x.productName}</p>
               <p>{x.drinkType}</p>
               <p>{x.price} </p>
               <p>{x.quantity}</p>
-              <button>delete</button>
+              <button
+                style={{
+                  background: "green",
+                  // marginTop: "400px",
+                  //   marginLeft: "50%",
+                  color: "white",
+                  border: "1px solid white",
+                  padding: "10px 30px",
+                  borderRadius: "10px",
+                }}
+              >
+                delete
+              </button>
             </div>
           ))}
-
-        {/* <table style="width:100%">
-          <tr>
-            <th></th>
-            <th>LIST</th>
-            <th></th>
-            <th>PRICE</th>
-            <th>QTY.</th>
-            <th></th>
-          </tr>
-          {orderInCart &&
-            orderInCart.map((x, index) => (
-              <tr>
-                <td>1</td>
-                <td>{x.productName}</td>
-                <td>{x.drinkType}</td>
-                <td>{x.price} </td>
-                <td>{x.quantity}</td>
-                <td><img src=""></img></td>
-              </tr>
-            ))}
-        </table> */}
         <p>Total: --- BAHT</p>
         <button>PAY NOW</button>
       </div>

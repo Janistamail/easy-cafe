@@ -7,20 +7,11 @@ export const cartSlice = createSlice({
     orderInCart: [],
   },
   reducers: {
-    //เมื่อลูกค้ากด ADD button
-    // addOrder: (state, action) => {
-    //   console.log(action.payload);
-    //   state.orderFromCustomer.push(action.payload);
-    // },
+    //เก็บค่าที่ลูกค้ากด ADD มาจากหน้า homeDetail
     updateCart: (state, action) => {
       console.log(action.payload);
       state.orderInCart.push(action.payload);
     },
-    // decreaseMenuOrder: (state) => {
-    //   if (state.amountHomeOrder > 0) {
-    //     state.amountHomeOrder -= 1;
-    //   }
-    // },
   },
 });
 
