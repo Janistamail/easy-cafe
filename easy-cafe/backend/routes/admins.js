@@ -4,8 +4,22 @@ const axios = require("axios");
 const pool = require("../modules/poolConnection");
 
 /* GET users listing. */
-router.get('/home', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/home/:category_name', async function(req, res, next) {
+// router.get('/home', async function(req, res, next) {
+  try{
+    const [rows,fields] = await pool.query(`
+    SELECT p.id_product,p.product_name, p.product_photo,c.category_name, p.hot_price,p.iced_price,p.frappe_price 
+    FROM products AS p 
+    LEFT JOIN category AS c ON c.id_category = p.id_category
+    where c.category_name = '${req.params.category_name}'
+    ORDER BY p.id_product ASC
+    `);
+    return res.status(200).send(rows);
+  }
+  catch(err){
+    console.log(err);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 });
 
 router.get('/product/edit', function(req, res, next) {

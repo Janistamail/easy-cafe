@@ -9,7 +9,7 @@ import storeUser from "./components/userComp/storeUser";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={storeUser}>
+  <Provider store={ storeUser }>
     <React.StrictMode>
       <BrowserRouter>
         <App />

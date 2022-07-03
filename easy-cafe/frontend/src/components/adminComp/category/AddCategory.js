@@ -19,7 +19,7 @@ function AddCategory(){
 
     }
     return(
-    <div className="flex justify-center mt-24">
+    <div className="flex justify-center pt-40">
         <div className="mt-2 sm:mt-0">
           <div className="md:grid md:grid-cols-1 md:gap-1">
             <div className="mt-2 md:mt-0 md:col-span-2">
