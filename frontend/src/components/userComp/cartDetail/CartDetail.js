@@ -2,6 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import NavbarFooter from "../../layout/navbarFooter";
+import NavbarHead from "../../layout/navbarHead";
 import { updateCart } from "../cartDetail/cartSlice";
 
 const CartDetail = () => {
@@ -9,63 +11,81 @@ const CartDetail = () => {
   let orderInCart = useSelector((state) => state.cart.orderInCart);
   let id_account = useSelector((state) => state.authen.id_account);
 
-  // useEffect(() => {
-  //   const showCart = async () => {
-  //     let result = await axios.post("/users/showCart", {
-  //       id_account: id_account,
-  //     });
-  //     if (result) {
-  //       console.log("checkCart", result.data);
-  //       // dispatch(updateCart(result.data));
-  //     }
-  //   };
-
-  //   showCart();
-  // }, []);
   console.log("orderInCart", orderInCart);
 
   return (
-    <div className="box">
-      <div id="cards">
+  <div>
+    <NavbarHead/>
+
+    <div className="pt-32 pb-16">
         {orderInCart &&
           orderInCart.map((x) => (
-            <div className="BoxA">
-              <button
-                style={{
-                  background: "green",
-                  // marginTop: "400px",
-                  //   marginLeft: "50%",
-                  color: "white",
-                  border: "1px solid white",
-                  padding: "10px 30px",
-                  borderRadius: "10px",
-                }}
-              >
-                edit
-              </button>
-              <p>{x.productName}</p>
-              <p>{x.drinkType}</p>
-              <p>{x.price} </p>
-              <p>{x.quantity}</p>
-              <button
-                style={{
-                  background: "green",
-                  // marginTop: "400px",
-                  //   marginLeft: "50%",
-                  color: "white",
-                  border: "1px solid white",
-                  padding: "10px 30px",
-                  borderRadius: "10px",
-                }}
-              >
-                delete
-              </button>
+            <div className="mt-2 sm:mt-5">
+            <div className="md:grid md:grid-cols-1 md:gap-10">
+              <div className="px-2.5 mt-2 md:mt-0 md:col-span-2">
+                <div className="px-4 py-3 shadow  rounded-lg bg-home overflow-hidden">
+
+                <div className="contents text-xl font-large text-white uppercase">
+                  <p>{x.productName}</p>
+                </div>
+
+                <div className="contents text-base text-white uppercase">
+                  <table className="w-full text-center mt-3 mb-5">
+                    <tr>
+                      <td>
+                        <p> Type </p>
+                      </td>
+                      <td>
+                        <p> Price </p>
+                      </td>
+                      <td>
+                        <p> quantity </p>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <p>{x.drinkType}</p>
+                      </td>
+                      <td>
+                        <p>{x.price} </p>
+                      </td>
+                      <td>
+                        <p>{x.quantity}</p>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table className="w-full text-center mt-3 mb-3">
+                    <tr>
+                      <td>
+                        <button
+                        type="submit"
+                        className=" py-2 px-4 inline-flex justify-center border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        EDIT
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        DELETE
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+
+                </div>
+              </div>
             </div>
-          ))}
-        <p>Total: --- BAHT</p>
-        <button>PAY NOW</button>
-      </div>
+          </div>
+        </div>
+      ))}
     </div>
+  <NavbarFooter/>
+</div>
   );
 };
 

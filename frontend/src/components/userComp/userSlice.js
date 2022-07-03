@@ -7,7 +7,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     initHome: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       let res = action.payload.map((x) => {
         x.quantity = 1;
         return x;

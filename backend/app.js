@@ -9,7 +9,6 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var bartendersRouter = require("./routes/bartenders");
 var adminsRouter = require("./routes/admins");
-var authenRouter = require("./routes/authen");
 
 var app = express();
 
@@ -22,13 +21,12 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/bartenders", bartendersRouter);
 app.use("/admins", adminsRouter);
-app.use("/authen", authenRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

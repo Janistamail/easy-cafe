@@ -10,7 +10,7 @@ const Start = () => {
       <button
         style={{
           background: "green",
-          marginTop: "400px",
+          marginTop: "200px",
           //   marginLeft: "50%",
           color: "white",
           border: "1px solid white",

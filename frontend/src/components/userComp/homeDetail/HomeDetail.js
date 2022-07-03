@@ -1,17 +1,16 @@
 import React from "react";
 import axios from "axios";
 import Modal from "react-modal";
-
 import "./homeDetail.css";
-
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect, useContext } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { initHome, increaseMenuOrder, decreaseMenuOrder } from "../userSlice";
 import { addOrder, updateCart } from "../cartDetail/cartSlice";
 import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import NavbarHead from "../../layout/navbarHead";
+import NavbarFooter from '../../layout/navbarFooter';
 
 const HomeDetail = () => {
   let location = useLocation();
@@ -94,6 +93,8 @@ const HomeDetail = () => {
   };
 
   return (
+    <div>
+      <NavbarHead/>  
     <>
       <Modal isOpen={modalIsOpen} style={customStyles}>
         <p>please select the drink type!</p>
@@ -104,19 +105,24 @@ const HomeDetail = () => {
           close
         </button>
       </Modal>
-      <div style={{ paddingTop: "100px", padding: "10px" }}>
+
+      <div className="pt-32 pb-16"
+      // style={{ paddingTop: "100px", padding: "10px" }}
+      >
         {state.order &&
           state.order.map((x, index) => (
-            <div className="mt-2 sm:mt-0">
-              <div className="md:grid md:grid-cols-1 md:gap-1">
-                <div className="mt-2 md:mt-0 md:col-span-2">
+            <div className="mt-2 sm:mt-5 rounded-lg">
+              <div className="md:grid md:grid-cols-1 md:gap-10">
+                <div className="px-2.5 mt-2 md:mt-0 md:col-span-2 ">
+
                   <form action="#" onSubmit={handleSubmit}>
-                    <div className="shadow overflow-hidden sm:rounded-md">
-                      <div className="px-4 py-5 bg-home space-y-2 sm:p-6">
+                    <div className="shadow overflow-hidden rounded-lg bg-home">
+                      <div className="px-4 py-3 space-y-2 sm:p-6 ">
                         <fieldset>
                           <legend className="contents text-xl font-large text-white uppercase">
                             {x.product_name}
                           </legend>
+
                           <input
                             type="hidden"
                             name="productName"
@@ -126,14 +132,13 @@ const HomeDetail = () => {
                           <table>
                             <tr>
                               <td>
-                                <img
-                                  style={{
-                                    margin: "30px",
-                                    borderRadius: "10px",
-                                  }}
-                                  width="100px"
-                                  height="100px"
-                                  src={`${x.product_photo}`}
+                              <img
+                                style={{ margin: "30px 30px 30px 0px", borderRadius: "10px" }}
+                                width="120px"
+                                height="120px"
+                                src=
+                                {`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUt4IIvaRZbnSuRXBFuL-Tho4e3576M9wZXQ&usqp=CAU`}
+                                  // {`${x.product_photo}`}
                                 ></img>
                               </td>
                               <td>
@@ -150,8 +155,8 @@ const HomeDetail = () => {
                                             setPrice(x.hot_price);
                                             setValidRadio(true);
                                           }}
-                                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                        />
+                                          className="focus:ring-green-800 h-4 w-4 text-green-800 border-gray-300"
+                                      />
                                         <label
                                           htmlFor="hot"
                                           className="ml-3 block text-sm font-medium text-white"
@@ -175,8 +180,8 @@ const HomeDetail = () => {
                                             setValidRadio(true);
                                             setPrice(x.iced_price);
                                           }}
-                                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                        />
+                                          className="focus:ring-green-800 h-4 w-4 text-green-800 border-gray-300"
+                                      />
                                         <label
                                           htmlFor="iced"
                                           className="ml-3 block text-sm font-medium text-white"
@@ -214,37 +219,56 @@ const HomeDetail = () => {
                                     )}
                                   </div>
 
+                              <div>
+                                  <tr>
+                                    <td>
                                   <button
                                     type="button"
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="inline-flex justify-center py-.5 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     onClick={() =>
                                       dispatch(decreaseMenuOrder(index))
                                     }
                                   >
                                     -
                                   </button>
-                                  <p style={{ color: "white" }}>{x.quantity}</p>
+                                  </td>
+                                  
+                                  <td>
+                                  <p style={{ color: "white", padding: '0px 20px 0px 20px' }}>{x.quantity}</p>
+                                  </td>
+
+                                  <td>
                                   <input
                                     type="hidden"
                                     name="quantity"
                                     value={x.quantity}
                                   />
+                                  </td>
+                                  <td>
                                   <button
                                     type="button"
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="inline-flex justify-center py-.5 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     onClick={() =>
                                       dispatch(increaseMenuOrder(index))
                                     }
                                   >
                                     +
                                   </button>
+                                  </td>
+                                  </tr>
                                 </div>
+
+
+
+                                </div>
+
                               </td>
                             </tr>
                           </table>
+
                         </fieldset>
                       </div>
-                      <div className="px-4 py-3 bg-home text-center sm:px-6">
+                      <div className="px-4 py-3 text-center sm:px-6">
                         <button
                           type="submit"
                           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -260,6 +284,8 @@ const HomeDetail = () => {
           ))}
       </div>
     </>
+    <NavbarFooter/>
+    </div>
   );
 };
 
