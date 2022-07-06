@@ -4,7 +4,7 @@ var pool = mysql.createPool({
   connectionLimit: 10,
   host: "localhost",
   user: "root",
-  // password: "root",
+  password: "",
   database: "easycafe",
   port: 3306,
 });
