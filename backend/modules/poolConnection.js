@@ -1,11 +1,16 @@
-var mysql = require("mysql2/promise");
+const mysql = require("mysql2/promise");
+const dotenv = require("dotenv");
 
-var pool = mysql.createPool({
+if(!process.env.DBHOST){
+  dotenv.config();
+}
+
+const pool = mysql.createPool({
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "easycafe",
+  host: process.env.DBHOST,
+  user: process.env.DBUSERNAME,
+  password: process.env.DBPASSWORD,
+  database: process.env.DBNAME,
   port: 3306,
 });
 
