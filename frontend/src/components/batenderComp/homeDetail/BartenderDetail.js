@@ -1,0 +1,162 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import './Bartender.css'
+import NavbarBartenderFooter from "../../layout/navbarBartenderFooter";
+
+const BartenderDetail = () => {
+  const [orders, setOrders] = useState(null);
+  const [show, setShow] = useState(null);
+  const get = async () => {
+    const res = await axios.get("bartenders/home");
+    setOrders(res.data);
+  };
+  useEffect(() => {
+    (!orders) ? get() : <></>;
+
+  }, []);
+  if (orders) {
+    let results = orders.reduce(function (results, org) {
+      (results[org.id_order] = results[org.id_order] || []).push(org);
+      return results;
+
+    }, {})
+
+    // show.push(results)
+    const entries = Object.values(results);
+    if (!show) {
+      setShow(entries);
+
+    }
+
+    console.log(show);
+  }
+  const accept = async (id)=>{
+    const res = await axios.put(`bartenders/home/process/accept/${id}`);
+    console.log(res);
+  }
+  const processing = async (id)=>{
+    const res = await axios.put(`bartenders/home/process/processing/${id}`);
+    console.log(res);
+  }
+  const done = async (id)=>{
+    const res = await axios.put(`bartenders/home/process/done/${id}`);
+    console.log(res);
+  }
+
+
+  return (
+    <div>
+    <div
+      style={{ paddingTop: "100px", padding: "10px", paddingBottom: "100px", marginTop: "90px" }}
+    >
+      {show &&
+        show.map((x, index) => (
+          <div className="mt-2 sm:mt-0">
+            <div className="md:grid md:grid-cols-1 md:gap-1">
+              <div className="mt-2 md:mt-0 md:col-span-2">
+                <form
+                  action="#"
+                // onSubmit={handleSubmit}
+                >
+                  <div className="shadow overflow-hidden rounded-lg">
+                    <div className="px-4 py-6 bg-home space-y-2 sm:p-6">
+                      <fieldset>
+                        <legend className="font-large text-white text-left mt-2 mb-3" >
+                          Order No. {x[0].id_order}
+                        </legend>
+
+                        <div className="mb-3"><p className="text-xs text-white text-right"> 
+                        Process : {x[0].process} 
+                        </p></div>
+
+                        <table style={{ width: "100%", margin: "0px auto" }}>
+                          <tr>
+                            <th style={{ color: "white" , textAlign : "center"}}>
+                              ลำดับ
+                            </th>
+                            <th style={{ color: "white", textAlign : "center" }}>
+                              รายการ
+                            </th>
+                            <th style={{ color: "white", textAlign : "center" }}>
+                              ประเภท
+                            </th>
+                            <th style={{ color: "white", textAlign : "center" }}>
+                              จำนวน
+                            </th>
+                          </tr>
+                          {
+                            x.map((x, index) => (
+                              <>
+                                <tr>
+                                  <td style={{ color: "white", textAlign : "center" }}>
+                                    {index + 1}
+                                  </td>
+                                  <td style={{ color: "white", textAlign : "center" }}>
+                                    {x.product_name}
+                                  </td>
+                                  <td style={{ color: "white", textAlign : "center" }}>
+                                    {x.type}
+                                  </td>
+                                  <td style={{ color: "white" , textAlign : "center"}}>
+                                    {x.amount}
+                                  </td>
+                                </tr>
+                              </>
+                            ))
+                          }
+                        </table>
+
+                      </fieldset>
+                    </div>
+                    <div className="px-4 py-3 bg-home text-center sm:px-6">
+                      <button
+                        
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      style={{ marginRight: "10px"}}
+                      onClick = {(e)=>
+                        { 
+                          e.preventDefault()
+                          accept(x[0].id_order)}
+                        }
+                      >
+                        รับออเดอร์
+                      </button>
+
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        style={{ marginRight: "10px"}}
+                        onClick = {(e)=>
+                          { 
+                            e.preventDefault()
+                            processing(x[0].id_order)}
+                          }
+                      >
+                        กำลังทำ
+                      </button>
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        style={{ marginRight: "10px"}}
+                        onClick = {(e)=>
+                          { 
+                            e.preventDefault()
+                            done(x[0].id_order)}
+                          }
+                      >
+                        เสร็จ
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+   <NavbarBartenderFooter/>
+    </div>
+  );
+};
+
+export default BartenderDetail;
