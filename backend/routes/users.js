@@ -47,12 +47,22 @@ router.post("/cart", async function (req, res, next) {
   );
   // console.log("rrr", rows[0].id_product);
 
+  //เก็บค่าที่ ADD order ลงใน cart
   if (rows[0]) {
     console.log("id_account", id_account);
     const [rows1, fields1] = await pool.query(
       `INSERT INTO cart (id_account, id_product, amount_cup, type, status_pay) VALUES (?,?,?,?,?) `,
       [id_account, rows[0].id_product, quantity, drinkType, status_pay]
     );
+
+  // console.log("rows", rows);
+    // console.log("rows1", rows1);
+
+    if (rows1) {
+      let data = { insertId: rows1.insertId, id_product: rows[0].id_product };
+      console.log("data", data);
+      res.status(200).send(data);
+    }
   }
 });
 
@@ -68,6 +78,60 @@ router.post("/showCart", async function (req, res, next) {
   res.status(200).json(rows);
   // console.log("showCart", rows);
 });
+
+//ลบ order ใน cart
+router.delete("/deleteOrder", async function (req, res, next) {
+  // console.log(req.headers.productname);
+  const [rows, fileds] = await pool.query(
+    `DELETE FROM cart WHERE id_cart = ${req.headers.productname} `
+  );
+  if (rows) {
+    res.status(200).send("deleted order in cart ");
+  }
+});
+
+
+//หา menu ที่ถูก edit เพื่อเอาไปแสดงหน้า edit
+router.post("/currentEditOrder", async function (req, res, next) {
+  // console.log("head", req.body.currentMenu);
+  const [rows, fileds] = await pool.query(
+    `SELECT * FROM products WHERE products.product_name = "${req.body.currentMenu.productName}"`
+  );
+  const [rows1, fileds1] = await pool.query(
+    `SELECT * FROM cart WHERE cart.id_cart = ${req.body.currentMenu.id_cart}`
+  );
+  // console.log("rows", rows);
+  // console.log("rows1", rows1);
+  let data = [rows[0], rows1[0]];
+
+  if (data) {
+    console.log("data", data);
+    res.status(200).json(data);
+  } else {
+    res.status(400).send("cannot find menu to show on edit display");
+  }
+});
+
+//แก้ order ในตาราง cart
+router.put("/editOrderAgain", async function (req, res, next) {
+  console.log("state", req.body.state);
+
+  // console.log("product", req.body.state.product);
+  // if ()
+  const [rows, fileds] = await pool.query(
+    `UPDATE cart SET amount_cup = ${req.body.state.product[1].amount_cup}, type = "${req.body.state.editedType}" WHERE id_cart = ${req.body.state.id_cart}`
+  );
+  if (rows) {
+    console.log(rows);
+    res.status(200).send(rows);
+  } else {
+    res.status(400).send("cannot edit order");
+  }
+});
+
+// router.put("/editUserCart", async function (req, res, next) {
+//   const [rows, fileds] = await pool.query(`UPDATE`);
+// });
 
 router.put("/edit/:id", async function (req, res, next) {
   console.log("test", req.params.id);

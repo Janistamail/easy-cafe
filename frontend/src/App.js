@@ -17,6 +17,7 @@ import EditProduct from "./components/adminComp/EditProduct/EditProduct";
 import EditCategory from "./components/adminComp/EditCategory/EditCategory";
 import EditAnyCategory from "./components/adminComp/EditCategory/EditAnyCategory";
 import UserProfile from "./components/userComp/profile/UserProfile";
+import EditUserCart from "./components/userComp/cartDetail/EditUserCart";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:3000";
@@ -28,6 +29,7 @@ function App() {
 {/* ------------------------------------Customer----------------------------------- */}
           <Route path="/:pageCat" element={<HomeDetail />} />
           <Route index path="/cart" element={<CartDetail />} />
+          <Route path="/editUserCart" element={<EditUserCart />} />
           <Route index path="/userprofile" element={<UserProfile/>} />
 {/* ------------------------------------Bartender----------------------------------- */}
           <Route path="/bartender" element={<BartenderDetail />} />

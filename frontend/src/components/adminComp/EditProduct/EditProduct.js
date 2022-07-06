@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { initAllCategory } from "../../userComp/categorySlice";
 import { initproducts } from "./productSlice";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import NavbarHead from "../../layout/navbarHead";
+import NavbarAdminHead from "../../layout/navbarAdminHead";
 import NavbarAdminFooter from "../../layout/navbarAdminFooter";
 
 function EditProduct() {
@@ -77,7 +77,7 @@ function EditProduct() {
 
   return (
     <div>
-      <NavbarHead />
+      <NavbarAdminHead />
       {/* // <div style={{ paddingTop: "100px", padding: "10px"}}> */}
       <div className="flex justify-center mt-24 mb-20">
         {state2.products &&

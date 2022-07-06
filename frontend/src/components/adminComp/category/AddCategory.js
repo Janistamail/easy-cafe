@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import NavbarHead from "../../layout/navbarHead";
+import NavbarAdminHead from "../../layout/navbarAdminHead";
 import NavbarAdminFooter from "../../layout/navbarAdminFooter";
 
 function AddCategory() {
@@ -26,7 +26,7 @@ function AddCategory() {
 
   return (
     <div>
-      <NavbarHead />
+      <NavbarAdminHead />
       <div className="flex justify-center mt-24">
         <div className="mt-2 sm:mt-0 w-full px-2.5 pt-7 ">
           <div className="md:grid md:grid-cols-1 md:gap-1">
