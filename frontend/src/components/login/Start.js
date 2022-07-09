@@ -1,8 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Start = () => {
   const navigate = useNavigate();
+  // const location = useLocation();
+  // console.log("location", location.search);
+  // const words = str.split("=");
+  // const transactionId = parseInt(words[1]);
+  // console.log(transactionId);
   return (
     <div
       style={{ padding: "0px 20px", justifyContent: "center", display: "flex" }}
@@ -10,7 +15,7 @@ const Start = () => {
       <button
         style={{
           background: "green",
-          marginTop: "200px",
+          marginTop: "400px",
           //   marginLeft: "50%",
           color: "white",
           border: "1px solid white",
@@ -19,7 +24,7 @@ const Start = () => {
         }}
         onClick={() => navigate("/coffee")}
       >
-        ORDER NOW
+        start
       </button>
     </div>
   );

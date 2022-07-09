@@ -4,13 +4,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.post("/login", async function (req, res, next) {
-  console.log(req.body);
-  const { line_id, line_name, line_pic, status } = req.body;
+  // console.log(req.body);
+  const { line_id, line_name, line_pic } = req.body;
   //ดึงข้อมูลใน DB ว่ามีไหม
   const [rows, fields] = await pool.query(
-    `SELECT line_id, status FROM accounts WHERE line_id = "${line_id}" `
+    `SELECT * FROM accounts WHERE line_id = "${line_id}"`
   );
-    // console.log("rows", rows);
+  // console.log("rows", rows);
 
   //1. ไม่มีข้อมูลในระบบให้ register เป็น user
   if (rows.length === 0) {

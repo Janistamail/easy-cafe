@@ -7,14 +7,14 @@ export const productsSlice = createSlice({
     // selectedCategory: "",
   },
   reducers: {
-    initproducts: (state, action) => {
+    initProductsEdit: (state, action) => {
       state.products = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { initproducts } =
+export const { initProductsEdit } =
 productsSlice.actions;
 
 export default productsSlice.reducer;

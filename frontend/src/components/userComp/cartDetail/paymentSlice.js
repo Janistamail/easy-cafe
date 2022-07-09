@@ -8,12 +8,6 @@ export const paymentSlice = createSlice({
   },
   reducers: {
     createBodyRequestAPI: (state, action) => {
-      //   const sum = action.payload.orderInCart.reduce(
-      //     (previousValue, currentValue) =>
-      //       previousValue + parseInt(currentValue.quantity),
-      //     0
-      //   );
-      //   console.log(sum);
       function makeid(length) {
         var result = "";
         var characters =
@@ -48,12 +42,13 @@ export const paymentSlice = createSlice({
         ],
         redirectUrls: {
           confirmUrlType: "CLIENT",
-          confirmUrl: "https://google.com/?success=true",
-          cancelUrl: "https://google.com/?success=false",
+          confirmUrl: "https://2496-49-237-18-153.ap.ngrok.io/confirm",
+          cancelUrl:
+            "https://w7.pngwing.com/pngs/52/84/png-transparent-no-symbol-icon-cancel-s-angle-text-symmetry-thumbnail.png",
         },
       };
       state.readyToPayment = true;
-      console.log("body", action.payload);
+      // console.log("body", action.payload);
     },
     setFalseReadyToPayment: (state, action) => {
       state.readyToPayment = false;

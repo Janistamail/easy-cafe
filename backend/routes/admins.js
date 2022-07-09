@@ -6,13 +6,19 @@ const pool = require("../modules/poolConnection");
 /* GET users listing. */
 // ---------Category on NavbarAdminHead------------------
 router.get("/home/:params", async function (req, res, next) {
-  try {
-    let [rows, fields] = await pool.query(
-      `SELECT * FROM products WHERE products.id_category = (SELECT category.id_category FROM category WHERE category.category_name = '${req.params.params}')`
-    );
-    res.status(200).send(rows);
-  } catch (e) {
-    console.log(e);
+  try{
+    const [rows,fields] = await pool.query(`
+    SELECT p.id_product,p.product_name, p.product_photo,c.category_name, p.hot_price,p.iced_price,p.frappe_price 
+    FROM products AS p 
+    LEFT JOIN category AS c ON c.id_category = p.id_category
+    where c.category_name = '${req.params.params}'
+    ORDER BY p.id_product ASC
+    `);
+    return res.status(200).send(rows);
+  }
+  catch(err){
+    console.log(err);
+    return res.status(400).json({ message: "Something went wrong" });
   }
 });
 
@@ -33,7 +39,7 @@ router.get("/home/:params", async function (req, res, next) {
 router.get('/editproduct/:params', async function(req, res, next) {
   try {
     let [rows, fields] = await pool.query(
-      `SELECT * FROM products WHERE products.id_product = ${req.params.params}`
+      `SELECT * FROM products WHERE id_product = ${req.params.params}`
     );
     res.status(200).send(rows);
   } catch (e) {
@@ -45,10 +51,26 @@ router.get('/editproduct/:params', async function(req, res, next) {
 // ---------------------Edit Product------------------------------
 router.put('/product/edit/:params', async function(req, res, next) {
   try{
+    const newpath = __dirname + "/../public/pic/";
+    const file = req.files.product_photo;
+    const dotIndex = file.name.lastIndexOf('.');
+    const fileExtension = file.name.substr(dotIndex);
+    const randomFilename = (new Date()).getTime();
+    const filename = randomFilename + fileExtension;
+    console.log(req.files);
+    console.log(`${newpath}${filename}`);
+   
+    file.mv(`${newpath}${filename}`, (err) => {
+      if (err) {
+        return(res.status(500).send({ message: "File upload failed" }));
+      }
+        return(res.status(200).send({ message: 'success', filename: filename }));
+    });
+
     const [rows,fields] = await pool.query(
     `update products set 
     product_name = "${req.body.product_name}",
-    product_photo = "${req.body.product_photo}",
+    product_photo = "${filename}",
     id_category = "${req.body.id_category}",
     hot_price = "${req.body.hot_price}",
     iced_price = "${req.body.iced_price}",
@@ -78,8 +100,8 @@ router.post("/product/add", async function (req, res, next) {
     const fileExtension = file.name.substr(dotIndex);
     const randomFilename = (new Date()).getTime();
     const filename = randomFilename + fileExtension;
-    console.log(req.body);
-    console.log(newpath);
+    console.log(req.files);
+    console.log(`${newpath}${filename}`);
    
     file.mv(`${newpath}${filename}`, (err) => {
       if (err) {
@@ -87,6 +109,8 @@ router.post("/product/add", async function (req, res, next) {
       }
         return(res.status(200).send({ message: 'success', filename: filename }));
     });
+
+
     const [rows, fields] = await pool.query(
       `insert into products(
         product_name, 

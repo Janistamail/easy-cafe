@@ -6,14 +6,16 @@ const pool = require("../modules/poolConnection");
 //แสดงเมนูแต่ละ category
 router.get("/home/:params", async function (req, res, next) {
   try {
+    // console.log("------");
     let [rows, fields] = await pool.query(
       `SELECT * FROM products WHERE products.id_category = (SELECT category.id_category FROM category WHERE category.category_name = '${req.params.params}')`
     );
     res.status(200).send(rows);
   } catch (e) {
-    console.log(e);
+    console.log("error", e);
   }
 });
+
 //reset ของใน cart หลัง login เข้ามา
 router.delete("/startDeleteCart", async function (req, res, next) {
   try {
@@ -26,12 +28,13 @@ router.delete("/startDeleteCart", async function (req, res, next) {
     console.log(e);
   }
 });
+
 //แสดง category ที่หัว navbar ทั้งหมด
 router.get("/allCategory", async function (req, res, next) {
-  console.log("test");
+  // console.log("test");
   try {
     let [rows, fields] = await pool.query(`SELECT * FROM category`);
-    console.log(rows);
+    // console.log(rows);
     res.status(200).send(rows);
   } catch (e) {
     console.log(e);
@@ -40,8 +43,9 @@ router.get("/allCategory", async function (req, res, next) {
 
 // //เก็บ order ที่ลูกต้า ADD
 router.post("/cart", async function (req, res, next) {
-  // console.log(req.body);
-  const { id_account, drinkType, productName, quantity, status_pay } = req.body;
+  // console.log(req.body.total);
+  const { id_account, drinkType, productName, quantity, status_pay, total } =
+    req.body;
   const [rows, fileds] = await pool.query(
     `SELECT id_product FROM products WHERE products.product_name = "${productName}"`
   );
@@ -49,13 +53,13 @@ router.post("/cart", async function (req, res, next) {
 
   //เก็บค่าที่ ADD order ลงใน cart
   if (rows[0]) {
-    console.log("id_account", id_account);
+    // console.log("id_account", id_account);
     const [rows1, fields1] = await pool.query(
-      `INSERT INTO cart (id_account, id_product, amount_cup, type, status_pay) VALUES (?,?,?,?,?) `,
-      [id_account, rows[0].id_product, quantity, drinkType, status_pay]
+      `INSERT INTO cart (id_account, id_product, amount_cup, type, status_pay, total) VALUES (?,?,?,?,?,?) `,
+      [id_account, rows[0].id_product, quantity, drinkType, status_pay, total]
     );
 
-  // console.log("rows", rows);
+    // console.log("rows", rows);
     // console.log("rows1", rows1);
 
     if (rows1) {
@@ -89,7 +93,6 @@ router.delete("/deleteOrder", async function (req, res, next) {
     res.status(200).send("deleted order in cart ");
   }
 });
-
 
 //หา menu ที่ถูก edit เพื่อเอาไปแสดงหน้า edit
 router.post("/currentEditOrder", async function (req, res, next) {
@@ -134,7 +137,7 @@ router.put("/editOrderAgain", async function (req, res, next) {
 // });
 
 router.put("/edit/:id", async function (req, res, next) {
-  console.log("test", req.params.id);
+  // console.log("test", req.params.id);
   const [rows, fields] = await pool.query(
     `update products set 
     product_name = "${req.body.product_name}" , 
@@ -155,6 +158,5 @@ router.put("/edit/:id", async function (req, res, next) {
 // router.get("/notification", function (req, res, next) {
 //   res.send("respond notification");
 // });
-
 
 module.exports = router;

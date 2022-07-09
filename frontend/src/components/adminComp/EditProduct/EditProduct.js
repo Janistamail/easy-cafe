@@ -2,9 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { initAllCategory } from "../../userComp/categorySlice";
-import { initproducts } from "./productSlice";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { initProductsEdit } from "./productSlice";
+import { useParams, useNavigate } from "react-router-dom";
 import NavbarAdminHead from "../../layout/navbarAdminHead";
 import NavbarAdminFooter from "../../layout/navbarAdminFooter";
 
@@ -12,73 +11,57 @@ function EditProduct() {
   //ดึง category_name จากตาราง category ที่ categorySlice
   // const { getId } = useParams();
   const { ProductId } = useParams();
-  let dispatch = useDispatch();
-  let navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const state = useSelector((state) => state.category.categoryAll);
   const state2 = useSelector((state) => state.products);
-  const dispatch2 = useDispatch();
+  
+    
+  const [product_name, setName] = useState();
+  const [product_photo, setPhoto] = useState();
+  const [id_category, setCategory] = useState(1);
+  const [hot_price, setHot] = useState();
+  const [iced_price, setIced] = useState();
+  const [frappe_price, setFrappe] = useState();
 
   useEffect(() => {
     console.log("ProductId", ProductId);
     const initFunc = async () => {
       // console.log("ProductId", ProductId);
       let result = await axios.get(`/admins/editproduct/${ProductId}`);
-      console.log("result", result);
+      
+      console.log("result", result.data.product_name);
       if (result.status === 200) {
-        dispatch2(initproducts(result.data));
+        dispatch(initProductsEdit(result.data));      
       }
+      
     };
     initFunc();
   }, [ProductId]);
 
-  let state = useSelector((state) => state.category.categoryAll);
-  useEffect(() => {
-    const fetchAllCategory = async () => {
-      let result = await axios.get("users/allCategory");
-      // console.log("res", result);
-      if (result.status === 200) {
-        dispatch(initAllCategory(result.data));
-        console.log("res", result);
-        // console.log("getId", getId);
-      }
-    };
-    fetchAllCategory();
-  }, []);
 
-  const [product_name, setName] = useState("");
-  const [product_photo, setPhoto] = useState("");
-  const [id_category, setCategory] = useState(1);
-  const [hot_price, setHot] = useState();
-  const [iced_price, setIced] = useState();
-  const [frappe_price, setFrappe] = useState();
+    const handleSubmit = async (event) => {
 
-  const handleSubmit = async (event) => {
+      //สร้างก้อน formData เก็บค่ามาจาก element โดย useState เพื่อส่งให้Backend
+      const formData = new FormData();
+      formData.append("product_name", product_name);
+      formData.append("product_photo", product_photo);
+      formData.append("id_category", id_category);
+      formData.append("hot_price", hot_price);
+      formData.append("iced_price", iced_price);
+      formData.append("frappe_price", frappe_price);
+      console.log(formData);
+      // console.log("id_category", id_category);
 
-    // event.preventDefault();
-    // console.log(event.target.category.value);
+      //ส่งข้อมูล formData ให้ backend
+      await axios.put(`/admins/product/edit/${ProductId}`, formData);
+      window.location.href='/admin/coffee';
+   };
 
-    //สร้างก้อน formData เก็บค่ามาจาก element โดย useState เพื่อส่งให้Backend
-    const formData = new FormData();
-    formData.append("product_name", product_name);
-    formData.append("product_photo", product_photo);
-    formData.append("id_category", id_category);
-    formData.append("hot_price", hot_price);
-    formData.append("iced_price", iced_price);
-    formData.append("frappe_price", frappe_price);
-    // console.log(formData);
-    // console.log("id_category", id_category);
-
-    //ส่งข้อมูล formData ให้ backend
-    await axios.put(`/admins/product/edit/${ProductId}`, formData);
-    navigate('/admin/coffee');
-  };
-
-  console.log("state", state2.products);
-
+  
   return (
     <div>
       <NavbarAdminHead />
-      {/* // <div style={{ paddingTop: "100px", padding: "10px"}}> */}
       <div className="flex justify-center mt-24 mb-20">
         {state2.products &&
           state2.products.map((x, index) => (
@@ -102,7 +85,7 @@ function EditProduct() {
                             }}
                             width="120px"
                             height="120px"
-                            src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUt4IIvaRZbnSuRXBFuL-Tho4e3576M9wZXQ&usqp=CAU`}
+                            src={`http://localhost:3000/static/pic/${x.product_photo}`}
                             // {`${x.product_photo}`}
                           ></img>
                           </div>
@@ -135,8 +118,9 @@ function EditProduct() {
                             </p>
                           </label>
                           <input
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => setName(e.target.value.toUpperCase())}
                             type="text"
+                            // defaultValue={x.product_name.toUpperCase()}
                             name="product-name"
                             id="product-name"
                             autocomplete="given-name"
@@ -151,6 +135,7 @@ function EditProduct() {
                             <select
                               name="category"
                               onChange={(e) => setCategory(e.target.value)}
+                              // defaultValue={x.id_category}
                               class="form-select appearance-none
                                   block
                                   w-full
@@ -188,6 +173,7 @@ function EditProduct() {
                           </label>
                           <input
                             onChange={(e) => setHot(e.target.value)}
+                            // defaultValue={x.hot_price}
                             type="text"
                             name="hot-price"
                             id="hot-price"
@@ -208,6 +194,7 @@ function EditProduct() {
                           <input
                             onChange={(e) => setIced(e.target.value)}
                             type="text"
+                            // defaultValue={x.iced_price}
                             name="iced-price"
                             id="iced-price"
                             autocomplete="given-name"
@@ -228,6 +215,7 @@ function EditProduct() {
                           <input
                             onChange={(e) => setFrappe(e.target.value)}
                             type="text"
+                            // defaultValue={x.frappe_price}
                             name="frappe-price"
                             id="frappe-price"
                             autocomplete="given-name"
@@ -236,7 +224,7 @@ function EditProduct() {
                         </div>
                         <br></br>
                         <div class="flex item-center justify-center pt-1 mb-20">
-                          <button
+                          <button 
                             type="submit"
                             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
