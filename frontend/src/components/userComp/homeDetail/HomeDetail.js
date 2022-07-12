@@ -13,9 +13,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { initHome, increaseMenuOrder, decreaseMenuOrder } from "../userSlice";
 import { addOrder, updateCart, setIdAccount } from "../cartDetail/cartSlice";
 import { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+
 
 const HomeDetail = () => {
+
+  const navigate = useNavigate();
   let location = useLocation();
   let [price, setPrice] = useState("");
   let [validRadio, setValidRadio] = useState(false);
@@ -103,6 +106,7 @@ const HomeDetail = () => {
       }
 
       setValidRadio(false);
+      navigate("/cart");
     }
   };
 

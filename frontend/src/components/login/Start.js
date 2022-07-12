@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Start = () => {
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
   // console.log("location", location.search);
   // const words = str.split("=");
   // const transactionId = parseInt(words[1]);
   // console.log(transactionId);
+
   return (
     <div
       style={{ padding: "0px 20px", justifyContent: "center", display: "flex" }}

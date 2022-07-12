@@ -1,22 +1,36 @@
 import React from "react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { queryParams } from "../../../utils/StringUtils";
+import { useSelector } from "react-redux";
 
 const ConfirmAPI = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log("location", location.search);
+  const line_id = useSelector((state) => {
+    // console.log(state.authen.data);
+    return state.authen.data?.line_id;
+  });
+
+  // console.log("location", location.search);
+  const updateToken = async (code, state, line_id) => {
+    let result = await axios.put("/lineNotify/updateUserToken", {
+      code,
+      state,
+      line_id,
+    });
+  };
 
   useEffect(() => {
-    const queryObj = queryParams(location.search);
-    const transactionId = queryObj.transactionId;
-    console.log({ transactionId });
-    console.log([queryObj.transactionId]);
-    console.log({ queryObj });
+    const { transactionId, code, state } = queryParams(location.search);
+
+    //console.log({ code, state, line_id });
+    if (code && state && line_id) {
+      // console.log(line.line_id);
+      updateToken(code, state, line_id);
+    }
 
     let conFirmAPIFunc = async () => {
       let res = await axios.get(`payment/findAmount/${transactionId}`);
@@ -29,15 +43,25 @@ const ConfirmAPI = () => {
           currency: "THB",
         }
       );
-      console.log("mmms", res2.data);
       if (res2.data.returnCode == "0000") {
-        const sendToOrdersTable = async () => {
-          let result = await axios.post("/");
+        //console.log("mmms", res2.data);
+
+        let initData = JSON.parse(localStorage.getItem("finalOrder") || "[]");
+        let id_account = localStorage.getItem("id_account");
+        let total = localStorage.getItem("total");
+
+        const setOrderAndHistoryTable = async () => {
+          const res = await axios.post("bartenders/setOrderAndHistoryTable ", {
+            initData,
+            id_account,
+            total,
+          });
         };
+        setOrderAndHistoryTable();
       }
     };
     conFirmAPIFunc();
-  }, []);
+  }, [line_id]);
 
   return (
     <div
@@ -47,7 +71,6 @@ const ConfirmAPI = () => {
         style={{
           background: "green",
           marginTop: "400px",
-          //   marginLeft: "50%",
           color: "white",
           border: "1px solid white",
           padding: "10px 30px",
@@ -57,6 +80,20 @@ const ConfirmAPI = () => {
       >
         order Again
       </button>
+      <br />
+      <a
+        style={{
+          background: "green",
+          marginTop: "400px",
+          color: "white",
+          border: "1px solid white",
+          padding: "10px 30px",
+          borderRadius: "10px",
+        }}
+        href="https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=1SinsjtBIolBaVWEXeTF7u&redirect_uri=https://b344-27-55-92-141.ap.ngrok.io/confirm&scope=notify&state=NCOczW10y7THdl4FVz4YZSkQEtzD3SF9L6iwtYy2Rj5"
+      >
+        รับการแจ้งเตือนผ่าน LINE Notify
+      </a>
     </div>
   );
 };

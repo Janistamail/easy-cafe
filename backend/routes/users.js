@@ -64,7 +64,7 @@ router.post("/cart", async function (req, res, next) {
 
     if (rows1) {
       let data = { insertId: rows1.insertId, id_product: rows[0].id_product };
-      console.log("data", data);
+      // console.log("data", data);
       res.status(200).send(data);
     }
   }
@@ -108,7 +108,7 @@ router.post("/currentEditOrder", async function (req, res, next) {
   let data = [rows[0], rows1[0]];
 
   if (data) {
-    console.log("data", data);
+    // console.log("data", data);
     res.status(200).json(data);
   } else {
     res.status(400).send("cannot find menu to show on edit display");
@@ -117,7 +117,7 @@ router.post("/currentEditOrder", async function (req, res, next) {
 
 //แก้ order ในตาราง cart
 router.put("/editOrderAgain", async function (req, res, next) {
-  console.log("state", req.body.state);
+  // console.log("state", req.body.state);
 
   // console.log("product", req.body.state.product);
   // if ()
@@ -125,7 +125,7 @@ router.put("/editOrderAgain", async function (req, res, next) {
     `UPDATE cart SET amount_cup = ${req.body.state.product[1].amount_cup}, type = "${req.body.state.editedType}" WHERE id_cart = ${req.body.state.id_cart}`
   );
   if (rows) {
-    console.log(rows);
+    // console.log(rows);
     res.status(200).send(rows);
   } else {
     res.status(400).send("cannot edit order");

@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+// import LayoutComp from "./components/userComp/layout/LayoutComp";
 import LayoutComp from "./components/layout/LayoutComp";
 import HomeDetail from "./components/userComp/homeDetail/HomeDetail";
 import BartenderDetail from "./components/batenderComp/homeDetail/BartenderDetail";

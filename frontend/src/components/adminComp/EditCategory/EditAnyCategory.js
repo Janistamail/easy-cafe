@@ -5,7 +5,7 @@ import NavbarAdminHead from "../../layout/navbarAdminHead";
 import NavbarAdminFooter from "../../layout/navbarAdminFooter";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate} from "react-router-dom";
 import { initEditCate } from "../cateEditSlice";
 
 function EditAnyCategory() {
@@ -14,15 +14,19 @@ function EditAnyCategory() {
   const { pageCat } = useParams();
   const state = useSelector((state) => state.anycate);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     // event.preventDefault();
+    
     const formData = new FormData();
     formData.append("category_name", category_name);
     // console.log("formData",formData);
     // console.log("category name" + category_name);
     await axios.put(`/admins/category/edit/${pageCat}`, formData);
     console.log("formData", formData);
+      navigate("/admin/editCategory");
+ 
   };
 
   useEffect(() => {
@@ -34,9 +38,12 @@ function EditAnyCategory() {
       // console.log("result", result.data[0].category_name);
       if (result.status === 200) {
         dispatch(initEditCate(result.data));
+        
       }
     };
     initFunc();
+    
+
   }, [pageCat]);
 
   // console.log('cate_name',state.anycate);

@@ -3,8 +3,8 @@ var express = require("express");
 const { send } = require("process");
 const pool = require("../modules/poolConnection");
 var router = express.Router();
-var rp = require("request-promise");
-const request = require("request-promise");
+var request = require("request-promise");
+// const request = require("request-promise");
 const crypto = require("crypto");
 const UUID = require("uuid-v4");
 
@@ -72,7 +72,7 @@ router.post(
     const url = `https://sandbox-api-pay.line.me/v3/payments/${req.params.transactionId}/confirm`; //edit
     // console.log("url", url);
     // console.log("header", header);
-    console.log(req.params.transactionId);
+    // console.log(req.params.transactionId);
     // const order = await readDB(transactionId);
     // const body = {
     //   amount: order.amount,
@@ -85,7 +85,7 @@ router.post(
         `/v3/payments/${req.params.transactionId}/confirm`,
         req.body
       );
-      const data = await rp({
+      const data = await request({
         method: "post",
         uri: url,
         body: req.body,
@@ -98,7 +98,7 @@ router.post(
       console.log(e);
     }
 
-    // rp({
+    // request({
     //   method: "POST",
     //   uri: url,
     //   body: req.body,
@@ -118,8 +118,8 @@ router.post("/v3/payments/request", async function (req, res, next) {
   //   ส่ง body
   doRequest(bodyData)
     .then((data) => {
-      console.log(JSON.stringify(data));
-      console.log("check", data);
+      // console.log(JSON.stringify(data));
+      // console.log("check", data);
       res.status(200).send(JSON.stringify(data));
       // res.status(200).send(data);
     })
@@ -136,7 +136,7 @@ router.get("/findAmount/:transactionId", async function (req, res, next) {
       `SELECT * FROM beforeConfirmAPI WHERE beforeConfirmAPI.transactionId = "${req.params.transactionId}"`
     );
 
-    console.log(rows);
+    // console.log(rows);
     res.status(200).send(rows);
   } catch (e) {
     console.log(e);
@@ -149,7 +149,7 @@ router.get("/findAmount/:transactionId", async function (req, res, next) {
 
 router.post("/setTransactionId", async function (req, res, next) {
   let { transactionId, amount } = req.body;
-  console.log("settransactionId", transactionId);
+  // console.log("settransactionId", transactionId);
   try {
     let [rows, fileds] = await pool.query(
       `INSERT INTO beforeConfirmAPI VALUES ("${transactionId}", ${amount})`

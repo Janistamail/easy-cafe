@@ -31,7 +31,7 @@ export const paymentSlice = createSlice({
       state.bodyRequestAPI = {
         amount: action.payload.total,
         currency: "THB",
-        orderId: makeid(5), //แก้
+        orderId: makeid(5),
         packages: [
           {
             id: makeid(5),
@@ -42,13 +42,12 @@ export const paymentSlice = createSlice({
         ],
         redirectUrls: {
           confirmUrlType: "CLIENT",
-          confirmUrl: "https://2496-49-237-18-153.ap.ngrok.io/confirm",
+          confirmUrl: "https://b344-27-55-92-141.ap.ngrok.io/confirm",
           cancelUrl:
             "https://w7.pngwing.com/pngs/52/84/png-transparent-no-symbol-icon-cancel-s-angle-text-symmetry-thumbnail.png",
         },
       };
       state.readyToPayment = true;
-      // console.log("body", action.payload);
     },
     setFalseReadyToPayment: (state, action) => {
       state.readyToPayment = false;
@@ -56,7 +55,6 @@ export const paymentSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { createBodyRequestAPI, setFalseReadyToPayment } =
   paymentSlice.actions;
 

@@ -6,12 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import NavbarFooter from "../../layout/navbarFooter";
 import {
-  updateCart,
   deleteOrderInCart,
   setTotal,
 } from "../cartDetail/cartSlice";
 import { createBodyRequestAPI, setFalseReadyToPayment } from "./paymentSlice";
-
 const LosslessJSON = require("lossless-json");
 
 const CartDetail = () => {
@@ -76,11 +74,13 @@ const CartDetail = () => {
     // console.log("111", result.info);
     // console.log("222", result2);
 
-    // window.open(`${result.data.info.paymentUrl.web}`, "_blank").focus();
-    // window.open(`${result.data.info.paymentUrl.web}`);
+    //เปิดหน้าใหม่
+    // window.open(`${result.info.paymentUrl.web}`, "_blank").focus();
+    // window.open(result.info.paymentUrl.web);
 
-    // navigate(`${result.data.info.paymentUrl.web}`);
-    window.location.replace(`${result.info.paymentUrl.web}`);
+    // navigate(`${result.info.paymentUrl.web}`);
+    window.location.replace(result.info.paymentUrl.web);
+    // window.location = result.info.paymentUrl.web;
   };
 
   useEffect(() => {
@@ -90,19 +90,18 @@ const CartDetail = () => {
 
       localStorage.setItem("finalOrder", JSON.stringify(orderInCart));
       localStorage.setItem("id_account", id_account);
+      localStorage.setItem("total", total);
     }
   }, [readyToPay]);
-
-  //   let data = [{"id":1493820594019},{"id":1493820606448}];
-  // localStorage.setItem("data", JSON.stringify(data));
-  // let res = JSON.parse(localStorage.getItem("data") || "[]");
-  // console.log(res);
 
   return (
     <div>
     {/* <NavbarHead /> */}
 
     <div className="pt-32 pb-16">
+    <div className="contents text-xl font-large text-white uppercase">
+      <p className="mt-50 text-center">invoice</p>
+    </div>
    
       {orderInCart &&
         orderInCart.map((x) => (
@@ -110,9 +109,7 @@ const CartDetail = () => {
             <div className="md:grid md:grid-cols-1 md:gap-10">
               <div className="px-2.5 mt-2 md:mt-0 md:col-span-2">
                 <div className="px-2 py-3 shadow  rounded-lg bg-home overflow-hidden">
-                <div className="contents text-xl font-large text-white uppercase">
-                  <p className="mt-50 text-center">invoice</p>
-                </div>
+
                   <div className="contents text-base text-white uppercase">
                     <table className="w-full text-center mt-3 mb-5">
                       <tr>
@@ -151,7 +148,7 @@ const CartDetail = () => {
                         <td>
                           <button
                             type="submit"
-                            onClick={(e) => onClickEdit(e, x)}
+                             onClick={(e) => onClickEdit(e, x)}
                             className=" py-2 px-4 inline-flex justify-center border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           >
                             EDIT

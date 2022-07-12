@@ -22,18 +22,6 @@ router.get("/home/:params", async function (req, res, next) {
   }
 });
 
-// // ---------EditProduct------------------
-// router.get("/editproduct/get/:params", async function (req, res, next) {
-//   try {
-//     let [rows, fields] = await pool.query(
-//       `SELECT * FROM products WHERE products.id_category = (SELECT category.id_category FROM category WHERE category.category_name = '${req.params.params}')`
-//     );
-//     res.status(200).send(rows);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
-
 
 // ---------EditProduct Mark-product------------------
 router.get('/editproduct/:params', async function(req, res, next) {

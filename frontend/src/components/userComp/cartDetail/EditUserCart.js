@@ -44,16 +44,6 @@ const EditUserCart = () => {
   }, []);
   console.log("m", currentEditOrder);
 
-  //   //////
-
-  //   const [amount, setAmount] = useState(0);
-  //   //   const { pageCat } = useParams();
-
-  //   const state = useSelector((state) => state.user);
-  //   const state1 = useSelector((state) => state.category);
-  //   const state2 = useSelector((state) => state.cart);
-  //   const id_account = useSelector((state) => state.authen.id_account);
-
   //modal
   let [validRadio, setValidRadio] = useState(false);
 
@@ -79,18 +69,6 @@ const EditUserCart = () => {
   };
   //   end modal
 
-  //   useEffect(() => {
-  //     //console.log("test", pageCat);
-  //     const initFunc = async () => {
-  //       let result = await axios.get(`/users/home/${pageCat}`);
-  //       // console.log(result);
-  //       //   if (result.status === 200) {
-  //       //     dispatch(initHome(result.data));
-  //       //   }
-  //     };
-  //     initFunc();
-  //   }, [pageCat]);
-
   // เมื่อลูกกดปุ่ม EDIT order
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,39 +79,22 @@ const EditUserCart = () => {
       setModalIsOpenToTrue(); //แสดง modal
       // alert("please select type of drink");
     } else {
-      //   console.log("orderInCart", orderInCart);
-      //   console.log("Success:", e.target.drinkType.value);
-      // console.log("Success:", e.target.productName.value);
-      //   console.log("Success:", e.target.quantity.value);
-      // console.log("IDDD", lineId);
+
       let editData = {
         id_cart: location.state.id_cart,
         drinkType: e.target.drinkType.value,
         quantity: e.target.quantity.value,
         total: e.target.quantity.value * price,
       };
+
       dispatch(updateOrderAfterEdited(editData));
+
       if (currentEditOrder.editedType) {
         let result = await axios.put("/users/editOrderAgain", {
           state: currentEditOrder,
 
-          // id_account: id_account,
-          // drinkType: e.target.drinkType.value, //type
-          // productName: e.target.productName.value,
-          // quantity: e.target.quantity.value, //amount_cup
-          // status_pay: "wait", //status_pay
         });
 
-        //   console.log("idIncart", result);
-        //   dispatch(
-        //     updateCart({
-        //       drinkType: e.target.drinkType.value,
-        //       productName: e.target.productName.value,
-        //       quantity: e.target.quantity.value,
-        //       price: price,
-        //       id_cart: result.data.insertId,
-        //     })
-        //   );
         setValidRadio(false);
       }
       navigate("/cart");
