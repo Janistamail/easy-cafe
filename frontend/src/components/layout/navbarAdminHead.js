@@ -3,28 +3,42 @@ import { useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { initAllCategory, setCurrentCategory } from "../userComp/categorySlice";
+import { getCategory, selectCategory } from "../adminComp/cateEditSlice";
 import axios from "axios";
 
 {/* ------------ Apichart : Update Tailwind Form 25/06/2022 ---------------------------- */ }
 
 const NavbarAdminHead = () => {
   let dispatch = useDispatch();
-  let state = useSelector((state) => state.category);
-
-  useEffect(() => {
-    const fetchAllCategory = async () => {
-      let result = await axios.get("users/allCategory");
-      // console.log(result);
-      if (result.status === 200) {
-        dispatch(initAllCategory(result.data));
-      }
-    };
-    fetchAllCategory();
-  }, []);
-
+  let state = useSelector((state) => state.anycate);
   let navigate = useNavigate();
 
+  const fetchAllCategory = async () => {
+    let result = await axios.get("users/allCategory");
+    // console.log(result.data[0].isShow);
+    const data = [];
+    if (result.status === 200) {
+      result.data.map((x) =>{
+        console.log(x.isShow);
+        if(x.isShow === 1){
+          data.push(x);
+        }
+      })
+      console.log(data);
+      dispatch(getCategory(data));
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCategory();
+
+  }, []);
+
+
+  // console.log(state.catygoryList);
+  // state.catygoryList.map((x)=>{
+  //   console.log(x.category_name);
+  // })
   
   
   return (
@@ -42,13 +56,13 @@ const NavbarAdminHead = () => {
           opacity: 1,
         }} >
 
-          {state.categoryAll &&
-            state.categoryAll.map((x) => (
+          {state.catygoryList &&
+            state.catygoryList.map((x) => (
               <button
                 className="button-30 uppercase"
                 role="button"
                 onClick={() => {
-                  dispatch(setCurrentCategory(x.category_name));
+                  dispatch(selectCategory(x.category_name));
                   navigate(`/admin/${x.category_name}`, { state: x.category_name });
                 }}
               >

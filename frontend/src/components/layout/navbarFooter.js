@@ -32,7 +32,7 @@ style={{
             </div>
 
             <div className="menufooter">
-              <Link to={"#"}>
+              <Link to={"/userprofile"}>
                 <img src={icon_profile} width="80px" />
               </Link>
             </div>
@@ -42,12 +42,12 @@ style={{
                 <img src={icon_cart} width="80px" />
               </Link>
             </div>
-
+{/* 
             <div className="menufooter">
                 <Link to={'#'}>
                 <img src={icon_notify} width="80px" />
               </Link>
-            </div>
+            </div> */}
 
           </div>
         </div>

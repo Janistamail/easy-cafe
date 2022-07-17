@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import NavbarHead from "../../layout/navbarHead";
+import NavbarAdminHead from "../../layout/navbarAdminHead";
 import NavbarAdminFooter from "../../layout/navbarAdminFooter";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate} from "react-router-dom";
 import { initEditCate } from "../cateEditSlice";
+import ToggleCategory from "./ToggleCategory";
 
 function EditAnyCategory() {
   const [category_name, setCategory] = useState("");
@@ -14,15 +15,19 @@ function EditAnyCategory() {
   const { pageCat } = useParams();
   const state = useSelector((state) => state.anycate);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     // event.preventDefault();
+    
     const formData = new FormData();
     formData.append("category_name", category_name);
     // console.log("formData",formData);
     // console.log("category name" + category_name);
     await axios.put(`/admins/category/edit/${pageCat}`, formData);
     console.log("formData", formData);
+      navigate("/admin/editCategory");
+ 
   };
 
   useEffect(() => {
@@ -34,16 +39,19 @@ function EditAnyCategory() {
       // console.log("result", result.data[0].category_name);
       if (result.status === 200) {
         dispatch(initEditCate(result.data));
+        
       }
     };
     initFunc();
+    
+
   }, [pageCat]);
 
   // console.log('cate_name',state.anycate);
 
   return (
     <div>
-      <NavbarHead />
+      <NavbarAdminHead />
       <div className="flex justify-center mt-24">
         <div className="mt-2 sm:mt-0 w-full px-2.5 pt-7 ">
           <div className="md:grid md:grid-cols-1 md:gap-1">
@@ -54,8 +62,8 @@ function EditAnyCategory() {
                     <div className="col-span-6 sm:col-span-3 uppercase">
                       {state.anycate &&
                         state.anycate.map((x, index) => (
-                          <div class="text-white font-medium">
-                            {x.category_name}
+                          <div class="text-white font-medium">                            
+                              {x.category_name}
                           </div>
                         ))}
 

@@ -11,3 +11,42 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+
+.bgstart {
+    background-image: url("./components/image/bg-spoon.jpg");
+    /* background-image: url("./components/image/bg-donut-chart.jpg"); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: black;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    padding: 0px 20px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.bg-admin {
+    /* background-image: url("./components/image/bg-spoon.jpg"); */
+    background-image: url("./components/image/bg-caffeine-structure.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: black;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    padding: 0px 20px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}

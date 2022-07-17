@@ -1,9 +1,7 @@
 import React from 'react';
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { initAllCategory } from "../../userComp/categorySlice";
-import NavbarHead from "../../layout/navbarHead";
+import { useSelector } from 'react-redux';
 import NavbarAdminFooter from '../../layout/navbarAdminFooter';
 import NavbarAdminHead from '../../layout/navbarAdminHead';
 
@@ -12,34 +10,18 @@ import NavbarAdminHead from '../../layout/navbarAdminHead';
 function AddProduct() {
     
 
-  //ดึง category_name จากตาราง category ที่ categorySlice
-  let dispatch = useDispatch();
+  //ดึง category_name redux category ที่ categorySlice
   let state = useSelector((state)=>state.category.categoryAll);
-  useEffect(()=>{
-  
-    const fetchAllCategory = async () => {
-      let result = await axios.get("users/allCategory");
-      // console.log("res", result);
-      if(result.status === 200){
-        dispatch(initAllCategory(result.data));
-      console.log("res", result);
+ 
 
-      }
-    }
-  fetchAllCategory();
-  },[]);
-  
+  const [product_name,setName] = useState('');
+  const [product_photo,setPhoto] = useState('');
+  const [id_category,setCategory] = useState(1);
+  const [hot_price,setHot] = useState();
+  const [iced_price,setIced] = useState();
+  const [frappe_price,setFrappe] = useState();
 
-
-
-const [product_name,setName] = useState('');
-const [product_photo,setPhoto] = useState('');
-const [id_category,setCategory] = useState(1);
-const [hot_price,setHot] = useState();
-const [iced_price,setIced] = useState();
-const [frappe_price,setFrappe] = useState();
-
-const handleSubmit = async event =>{
+  const handleSubmit = async event =>{
   // event.preventDefault();
   // console.log(event.target.category.value);
 
@@ -58,6 +40,8 @@ const handleSubmit = async event =>{
 
 //ส่งข้อมูล formData ให้ backend
   await axios.post("admins/product/add",formData);
+  window.location.href='/admin/coffee';
+  
   
 }
 
@@ -87,7 +71,10 @@ console.log(id_category);
 
                             <div>
                             <label class="block mb-2 text-sm font-medium text-gray-300 " for="file_input">Upload Photo</label>
-                            <input accept="image/png, image/gif, image/jpeg" onChange={(e)=>setPhoto(e.target.files[0])} class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
+                            <input accept="image/png, image/gif, image/jpeg" 
+                            onChange={(e)=>setPhoto(e.target.files[0])} 
+                            class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" 
+                            aria-describedby="file_input_help" id="file_input" type="file"/>
                             {/* input file    /  accept เพื่อกำหนดประเภทไฟล์              /        รับค่าข้อมูลกลับมาเป็น .files */}
                           </div>
 
@@ -111,13 +98,10 @@ console.log(id_category);
                                   ease-in-out
                                   m-0
                                   focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                                    {/* <option selected name="category" onChange={(e)=>setCategory(e.target.value)}>Category</option> */}
                                     {state.map((x)=>(
                                       <option value={x.id_category}>{x.category_name}</option>
                                     ))}
-                                    {/* <option name="category" value="1">One</option>
-                                    <option name="category" value="2">Two</option>
-                                    <option name="category" value="3">Three</option> */}
+                                    
                                 </select>
                             </div>
                           </div>

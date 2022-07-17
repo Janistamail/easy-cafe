@@ -1,45 +1,60 @@
 import React from "react";
 import axios from "axios";
-import { createSlice } from "@reduxjs/toolkit";
-import { useEffect, useContext } from "react";
+import { useEffect,  } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { initHome, increaseMenuOrder, decreaseMenuOrder } from "../../userComp/userSlice";
+import { initProduct } from "../adminSlice";
 import { useState } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import NavbarAdminFooter from '../../layout/navbarAdminFooter';
+import { useParams } from "react-router-dom";
+import NavbarAdminFooter from "../../layout/navbarAdminFooter";
 import NavbarAdminHead from "../../layout/navbarAdminHead";
+import { useNavigate } from "react-router-dom";
 
 const HomeAdminDetail = () => {
-  let location = useLocation();
-  // console.log(location);
-
-  const [amount, setAmount] = useState(0);
+  
   const { pageCat } = useParams();
+  const [del_product, setDel] = useState(null);
+  const navigate = useNavigate();
 
-  const state = useSelector((state) => state.user);
-  const state1 = useSelector((state) => state.category);
+  const state = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    //console.log("test", pageCat);
+    useEffect(() => {
     const initFunc = async () => {
-      let result = await axios.get(`/users/home/${pageCat}`);
-      console.log('result', result);
+      const result = await axios.get(`/admins/home/${pageCat}`);
+      // console.log('result', result);
       if (result.status === 200) {
-        dispatch(initHome(result.data));
+        // console.log('result', result.data);
+        dispatch(initProduct(result.data));
       }
     };
     initFunc();
-  }, [pageCat]);
+  },[pageCat,del_product]);
 
-  let navigate = useNavigate();
+
+//-----Function onclick button delete-----
+  const handel_del = (e)=>{
+    axios.delete(`/admins/product/del/${e}`);
+    try{
+      // console.log(e);
+      setDel(e);
+    }
+    catch(err){
+      console.log(err);
+    }
+    navigate(`/admin/${pageCat}`)
+  }
+
+//-----Function onclick button edit-----
+  const handel_edit=(e)=> {
+    window.location = `/admin/editproduct/${e}`;
+  }
 
   return (
 <div>
   <NavbarAdminHead/>  
     <div className="pt-32 pb-16">
-      {state.order &&
-        state.order.map((x, index) => (
+      {state.product &&
+        state.product.map((x, index) => (
           <div className="mt-2 sm:mt-5">
             <div className="px-2.5 md:grid md:grid-cols-1 md:gap-10 ">
               <div className="rounded-lg bg-home mt-2 md:mt-0 md:col-span-2">
@@ -62,8 +77,7 @@ const HomeAdminDetail = () => {
                                 width="120px"
                                 height="120px"
                                 src=
-                                {`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUt4IIvaRZbnSuRXBFuL-Tho4e3576M9wZXQ&usqp=CAU`}
-                                // {`${x.product_photo}`}
+                                {`http://localhost:3000/static/pic/${x.product_photo}`}
                               ></img>
 
                             </td>
@@ -130,12 +144,7 @@ const HomeAdminDetail = () => {
                               // type="submit"
                               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                               role="button"
-                                onClick={() => {
-                                  // dispatch(setCurrentCategory(x.product_name));
-                                  navigate(`/admin/editproduct/${x.id_product}`, 
-                                  // {state: x.product_name,}
-                                  );
-                                }}
+                              onClick={(e)=>{handel_edit(x.id_product)}}
                               >
                               EDIT PRODUCT
                             </button>
@@ -146,9 +155,7 @@ const HomeAdminDetail = () => {
                             <button
                               // type="submit"
                               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                              onClick={()=>{axios.delete(`/admins/product/del/${x.id_product}`);
-                              // navigate('/admin/coffee');
-                            }}
+                              onClick={(e)=>{handel_del(x.id_product)}}  
                               >
                               DELETE PRODUCT
                               </button>

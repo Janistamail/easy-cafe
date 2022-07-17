@@ -23,7 +23,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchAllCategory = async () => {
       let result = await axios.get("users/allCategory");
-      // console.log(result);
+      console.log(result);
       if (result.status === 200) {
         dispatch(initAllCategory(result.data));
       }

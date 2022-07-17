@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 export const authenSlice = createSlice({
   name: "authen",
   initialState: {
-    // isLoggedIn: false,
     id_account: "",
     data: null,
     role: "",
+    orderNowOrAgain: "orderNow",
   },
   reducers: {
     //เมื่อกดปุ่ม login
@@ -21,9 +21,14 @@ export const authenSlice = createSlice({
     setRole: (state, action) => {
       state.role = action.payload;
     },
+    orderNowOrAgain: (state, action) => {
+      console.log("order", action.payload);
+      state.orderNowOrAgain = action.payload;
+    },
   },
 });
 
 export default authenSlice.reducer;
 
-export const { initData, setIdAccount, setRole } = authenSlice.actions;
+export const { initData, setIdAccount, setRole, orderNowOrAgain } =
+  authenSlice.actions;

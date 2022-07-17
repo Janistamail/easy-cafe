@@ -2,52 +2,82 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import './Bartender.css'
 import NavbarBartenderFooter from "../../layout/navbarBartenderFooter";
+const querystring = require("querystring");
+
 
 const BartenderDetail = () => {
-  const [orders, setOrders] = useState(null);
   const [show, setShow] = useState(null);
+
   const get = async () => {
     const res = await axios.get("bartenders/home");
-    setOrders(res.data);
-  };
-  useEffect(() => {
-    (!orders) ? get() : <></>;
 
-  }, []);
-  if (orders) {
-    let results = orders.reduce(function (results, org) {
+    let results = res.data.reduce(function (results, org) {
       (results[org.id_order] = results[org.id_order] || []).push(org);
       return results;
+    }, {});
 
-    }, {})
-
-    // show.push(results)
     const entries = Object.values(results);
-    if (!show) {
-      setShow(entries);
+    setShow(entries);
 
-    }
+    // console.log(res.data);
+  };
 
-    console.log(show);
-  }
-  const accept = async (id)=>{
+  useEffect(() => {
+    const interval = setInterval(() => {
+      get();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  //---------------------------------------
+  const accept = async (id) => {
+    // console.log("id", id);
     const res = await axios.put(`bartenders/home/process/accept/${id}`);
-    console.log(res);
-  }
-  const processing = async (id)=>{
+    const res2 = await axios.post(`/lineNotify/notify`, {
+      status1: "accept",
+      id,
+    });
+  };
+  //---------------------------------------
+  const processing = async (id) => {
+    // console.log("id", id);
     const res = await axios.put(`bartenders/home/process/processing/${id}`);
-    console.log(res);
-  }
-  const done = async (id)=>{
-    const res = await axios.put(`bartenders/home/process/done/${id}`);
-    console.log(res);
-  }
+    const res2 = await axios.post(`/lineNotify/notify`, {
+      status1: "processing",
+      id,
+    });
 
+    console.log(res);
+  };
+  //---------------------------------------
+
+  const done = async (id) => {
+    // console.log("id", id);
+    const res = await axios.put(`bartenders/home/process/done/${id}`);
+    // console.log(res);
+
+    if (res.status === 200) {
+      console.log("------");
+
+      let clearDoneOrder = show.filter((x) => x[0].id_order != id);
+
+      // if (clearDoneOrder.length > 0) {
+      console.log("dd", clearDoneOrder);
+      setShow(clearDoneOrder);
+      const res2 = await axios.post(`/lineNotify/notify`, {
+        status1: "done",
+        id,
+      });
+
+      // }
+    }
+  };
+  //---------------------------------------
 
   return (
     <div>
     <div
-      style={{ paddingTop: "100px", padding: "10px", paddingBottom: "100px", marginTop: "90px" }}
+      style={{ paddingTop: "100px", padding: "10px", paddingBottom: "80px", marginTop: "90px" }}
     >
       {show &&
         show.map((x, index) => (
@@ -65,15 +95,10 @@ const BartenderDetail = () => {
                           Order No. {x[0].id_order}
                         </legend>
 
-                        <div className="mb-3"><p className="text-xs text-white text-right"> 
-                        Process : {x[0].process} 
-                        </p></div>
-
                         <table style={{ width: "100%", margin: "0px auto" }}>
+
                           <tr>
-                            <th style={{ color: "white" , textAlign : "center"}}>
-                              ลำดับ
-                            </th>
+
                             <th style={{ color: "white", textAlign : "center" }}>
                               รายการ
                             </th>
@@ -88,9 +113,6 @@ const BartenderDetail = () => {
                             x.map((x, index) => (
                               <>
                                 <tr>
-                                  <td style={{ color: "white", textAlign : "center" }}>
-                                    {index + 1}
-                                  </td>
                                   <td style={{ color: "white", textAlign : "center" }}>
                                     {x.product_name}
                                   </td>
@@ -113,11 +135,12 @@ const BartenderDetail = () => {
                         
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       style={{ marginRight: "10px"}}
-                      onClick = {(e)=>
-                        { 
-                          e.preventDefault()
-                          accept(x[0].id_order)}
-                        }
+                      disabled={x[0].process !== "R"}
+                        onClick={(e) => {
+                          console.log("orderIsclick");
+                          e.preventDefault();
+                          accept(x[0].id_order);
+                        }}
                       >
                         รับออเดอร์
                       </button>
@@ -126,11 +149,11 @@ const BartenderDetail = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         style={{ marginRight: "10px"}}
-                        onClick = {(e)=>
-                          { 
-                            e.preventDefault()
-                            processing(x[0].id_order)}
-                          }
+                        disabled={x[0].process !== "A"}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          processing(x[0].id_order);
+                        }}
                       >
                         กำลังทำ
                       </button>
@@ -138,11 +161,11 @@ const BartenderDetail = () => {
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         style={{ marginRight: "10px"}}
-                        onClick = {(e)=>
-                          { 
-                            e.preventDefault()
-                            done(x[0].id_order)}
-                          }
+                        disabled={x[0].process !== "P"}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          done(x[0].id_order);
+                        }}
                       >
                         เสร็จ
                       </button>
